@@ -13,11 +13,9 @@ const InvesterCommitment = ({ handleSliderChange, investerAmount }) => {
       <h1 className="text-3xl font-bold text-center mb-2">
         Congratulations!🎉
       </h1>
-      <p className="text-xl font-semibold text-center">
-        Your score has increased.
-      </p>
-      <p className={`text-4xl ${poppins.className} text-center mt-6`}>
-        Your Skill Match Score
+      <p className="text-xl font-semibold text-center">welcome to FreedFi</p>
+      <p className={`text-2xl ${poppins.className} text-center mt-6`}>
+        Your investor committment
       </p>
       <p
         className={`text-4xl ${poppins.className} bg-[#AF6DEA] text-center  text-white w-fit mx-auto`}>

@@ -35,10 +35,10 @@ export default function InvesterProof() {
   return (
     <div className="max-w-4xl mx-auto py-4 px-6">
       <h1 className="text-3xl font-bold text-center mb-4">
-        Apply for the Loan
+        Apply to Invest in Talent
       </h1>
       <p className="text-center mb-8">
-        Complete the 2 steps to apply for the loan
+        Complete only 2 steps to become an Investor
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="bg-white p-6 shadow rounded w-full">
@@ -47,15 +47,15 @@ export default function InvesterProof() {
             setInputValue={setCredentialWalletAddress}
             isEmpty={isEmptyCredentialWalletAddress}
             setIsEmpty={setIsEmptyCredentialWalletAddress}
-            label="Add Skill Credential Vault address *"
-            errorMessage="Credential Vault Address Is Empty"
+            label="Add Capital Vault address *"
+            errorMessage="Capital Vault address Is Empty"
           />
         </div>
         <div className="bg-white p-6 shadow rounded">
           {contractAddress.map((contract) => (
             <Input
               key={contract.id}
-              label="Contract Address"
+              label="Add Social DID address"
               inputValue={contract.address}
               setInputValue={(newValue) =>
                 handleAddressChange(contract.id, newValue)
