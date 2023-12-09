@@ -32,7 +32,11 @@ const Onboarding = () => {
   };
 
   const handleSliderChange = (value) => {
-    setInvesterAmount(value); // Directly use the array value
+    if (value < 20000) {
+      setInvesterAmount([20000]); // Directly use the array value
+    } else {
+      setInvesterAmount(value);
+    }
   };
 
   useEffect(() => {

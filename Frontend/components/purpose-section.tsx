@@ -32,9 +32,9 @@ export default function PurposeSection() {
     <div className="bg-white pt-32 pb-5">
       <div className="container mx-auto px-4">
         <div className="text-center">
-          <h2 className="text-4xl font-semibold mb-4">Welcome to LancerLoan</h2>
+          <h2 className="text-4xl font-semibold mb-4">Welcome to FreedFi</h2>
           <p className="text-xl mb-12">
-            Platform to provide talent based loans
+            Start your journey towards funding the future.
           </p>
         </div>
         <div className="flex justify-center space-x-8">
