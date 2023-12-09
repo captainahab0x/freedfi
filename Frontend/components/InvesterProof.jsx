@@ -4,7 +4,7 @@ import Input from '../components/Input';
 import InputField from '../components/InputField';
 import { Button } from '@/components/ui/button';
 
-export default function SeekersProof() {
+export default function InvesterProof() {
   const router = useRouter();
 
   const [credentialWalletAddress, setCredentialWalletAddress] = useState('');

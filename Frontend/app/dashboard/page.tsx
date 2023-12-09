@@ -16,8 +16,8 @@ export default function Page() {
   useEffect(() => {
     if (isConfetti) {
       setShowConfetti(true);
-      // Set a timeout to hide the confetti after some time
-      const timer = setTimeout(() => setShowConfetti(false), 3000); // assuming 3000 is the duration of the confetti explosion
+
+      const timer = setTimeout(() => setShowConfetti(false), 5000);
       return () => clearTimeout(timer);
     }
   }, [isConfetti]);
