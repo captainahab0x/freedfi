@@ -57,7 +57,7 @@ export default function HeaderSection() {
               Dashboard
             </Link>
           </Button>
-          <Button asChild variant="ghost" className="hover:bg-violet-500/10">
+          <Button asChild variant="ghost">
             <Link
               href="/add-contract"
               className="text-sm font-medium transition-colors">
