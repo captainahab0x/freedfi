@@ -49,13 +49,6 @@ const Onboarding = () => {
     };
   }, []);
 
-  const checkLinkedInUrl = () => {
-    dispatch(onboardingActions.checkLinkedInUrl());
-    linkedInUrlError && linkedInUrl !== ''
-      ? toast.error('LinkedIn URL is not saved')
-      : linkedInUrl !== '' && toast.success('LinkedIn URL is saved');
-  };
-
   const nextPanel = (e) => {
     e.preventDefault();
 

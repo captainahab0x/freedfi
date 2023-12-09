@@ -4,13 +4,7 @@ import { useRouter } from 'next/navigation';
 import { CardContent, Card } from '@/components/ui/card';
 import { JSX, SVGProps } from 'react';
 import { uiActions } from '@/store/ui-slice';
-import { Poller_One } from 'next/font/google';
 import { useDispatch, useSelector } from 'react-redux';
-
-const poller_one = Poller_One({
-  weight: ['400'],
-  subsets: ['latin'],
-});
 
 export default function PurposeSection() {
   const router = useRouter();
