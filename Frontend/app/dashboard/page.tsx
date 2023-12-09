@@ -24,7 +24,7 @@ export default function Page() {
 
   return (
     <div className="">
-      <div className="fixed top-0 w-full">
+      <div className="fixed top-0 w-full ">
         <HeaderSection />
       </div>
       <div className="min-h-viewport-minus-sections">

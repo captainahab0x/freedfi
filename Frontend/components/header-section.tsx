@@ -16,7 +16,9 @@ const poller_one = Poller_One({
 export default function HeaderSection() {
   return (
     <div className="px-12 py-6">
-      <div className="bg-white rounded-lg flex justify-between items-center px-6 py-4 shadow-sm border-grey border-[1px]">
+      <div className="backdrop-blur-lg  rounded-lg flex justify-between items-center px-6 py-4 shadow-sm border-purple-500 border-[1px]">
+        {' '}
+        {/* Updated this line for purple background */}
         <div className="flex items-center">
           <Sheet>
             <SheetTrigger>
@@ -43,34 +45,41 @@ export default function HeaderSection() {
             </h1>
           </Link>
         </div>
-
         <nav className="mx-4  items-center space-x-2 lg:space-x-4 hidden md:block">
           <Button asChild variant="ghost">
-            <Link href="/" className="text-sm font-medium transition-colors">
+            <Link
+              href="/"
+              className="text-sm font-medium transition-colors hover:bg-purple-100">
               Home
             </Link>
           </Button>
           <Button asChild variant="ghost">
             <Link
               href="/dashboard"
-              className="text-sm font-medium transition-colors">
+              className="text-sm font-medium transition-colors hover:bg-purple-100">
               Dashboard
             </Link>
           </Button>
           <Button asChild variant="ghost">
             <Link
               href="/add-contract"
-              className="text-sm font-medium transition-colors">
+              className="text-sm font-medium transition-colors hover:bg-purple-100">
               Request Loan
             </Link>
           </Button>
+          <Button asChild variant="ghost">
+            <Link
+              href="/marketplace"
+              className="text-sm font-medium transition-colors hover:bg-purple-100">
+              Market Place
+            </Link>
+          </Button>
         </nav>
-
         <div className="flex items-center">
           <div className="hidden lg:block">
             <ConnectButton />
           </div>
-          <div className="lg:hidden ">
+          <div className="lg:hidden">
             <ConnectButton showBalance={false} chainStatus="none" />
           </div>
         </div>
