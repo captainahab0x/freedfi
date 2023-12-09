@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
 pragma solidity 0.8.20;
 
-import "./GetALoan.sol";
+interface ILendingPlatform {
+    function getInvesters(address lender) external view returns (bool);
+}
 
 contract PoolController {
     event Received(address indexed lender, uint256 indexed amount);
@@ -9,22 +11,20 @@ contract PoolController {
     mapping(address => uint256) balances;
 
     address owner;
-    address lp;
+    ILendingPlatform lp;
 
-    constructor(address _owner, address _lp) {
+    constructor(address _owner, ILendingPlatform _lp) {
         owner = _owner;
         lp = _lp;
     }
 
-    LendingPlatform lendingPlatform;
-
     modifier onlyLP() {
-        require(msg.sender == lp);
+        require(msg.sender == address(lp));
         _;
     }
 
     modifier onlyInvester() {
-        require(lendingPlatform.getInvesters(msg.sender) == true);
+        require(lp.getInvesters(msg.sender) == true);
         _;
     }
 
