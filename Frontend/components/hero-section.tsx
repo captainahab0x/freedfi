@@ -13,7 +13,7 @@ export default function HeroSection() {
   const router = useRouter();
 
   const heroAction = () => {
-    router.push('/onboarding');
+    router.push('/auth');
   };
 
   return (

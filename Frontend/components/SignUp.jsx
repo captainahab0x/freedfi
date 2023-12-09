@@ -31,7 +31,10 @@ const SignUp = ({ setIsSignUp }) => {
   };
 
   const handelSubmit = () => {
-    isAllValid && router.push('/onboarding');
+    if (isAllValid) {
+      console.log('signup');
+      router.push('/onboarding');
+    }
   };
 
   useEffect(() => {

@@ -4,7 +4,7 @@ const SignUpButton = ({ isAllValid, label, handelSubmit }) => {
   return (
     <button
       onClick={handelSubmit}
-      disabled={isAllValid}
+      disabled={!isAllValid}
       type="button"
       className={`mt-5 py-[9px] text-[0.875rem] rounded font-semibold  ${
         isAllValid
