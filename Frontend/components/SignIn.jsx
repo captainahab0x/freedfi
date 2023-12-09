@@ -7,7 +7,6 @@ import EmailField from '@/components/EmailField';
 import SignUpButton from '@/components/SignUpButton';
 import PasswordFieldSignIn from '@/components/PasswordFieldSignIn';
 import { useRouter } from 'next/navigation';
-import { useNavigation } from 'react-day-picker';
 
 const SignUp = ({ setIsSignUp }) => {
   const [Email, setEmail] = useState('');
@@ -23,10 +22,10 @@ const SignUp = ({ setIsSignUp }) => {
     setIsAllValid(!EmailError && !PasswordError);
   };
 
-  const handelSubmit = (e) => {
-    e.preventDefault();
-    isAllValid && router.push('/onboarding');
-    console.log('signin submit');
+  const handelSubmit = () => {
+    if (isAllValid) {
+      router.push('/onboarding');
+    }
   };
 
   useEffect(() => {
@@ -35,7 +34,7 @@ const SignUp = ({ setIsSignUp }) => {
       return;
     }
     checkAllValid();
-  }, [EmailError, PasswordError]);
+  }, [EmailError, PasswordError, Email, Password]);
 
   return (
     <div className="flex min-h-screen w-full h-full">

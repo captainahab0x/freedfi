@@ -7,8 +7,7 @@ export default function ApplyForLoanSection() {
   const router = useRouter();
 
   const sectionAction = () => {
-    console.log('Apply for Loan Action');
-    router.push('/purpose');
+    router.push('/auth');
   };
 
   return (
@@ -47,7 +46,7 @@ export default function ApplyForLoanSection() {
       </div>
       <div className="flex justify-center mt-12">
         <Button
-          className="text-[#0e0e0e] rounded-md  z-10 bg-[#C9F270] text-primary-text hover:bg-[#DAF996] hover:scale-[103%]  hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer"
+          className="text-[#0e0e0e] rounded-md  z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer"
           onClick={() => sectionAction()}>
           Get Started
         </Button>

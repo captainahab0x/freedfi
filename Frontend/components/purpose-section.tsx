@@ -1,8 +1,6 @@
-'use client';
-
 import { useRouter } from 'next/navigation';
 import { CardContent, Card } from '@/components/ui/card';
-import { JSX, SVGProps } from 'react';
+import { useCallback } from 'react';
 import { uiActions } from '@/store/ui-slice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -11,37 +9,27 @@ export default function PurposeSection() {
   const dispatch = useDispatch();
   const { isInvester, isSeeker } = useSelector((state) => state.ui);
 
-  const setInvester = () => {
-    dispatch(uiActions.toggleIsInvester(true));
-    dispatch(uiActions.toggleIsSeeker(false));
-  };
+  const handelClick = useCallback(
+    (route) => {
+      router.push(route);
+    },
+    [router]
+  );
 
-  const setSekker = () => {
+  const requestLoanAction = useCallback(() => {
     dispatch(uiActions.toggleIsSeeker(true));
     dispatch(uiActions.toggleIsInvester(false));
-  };
+    handelClick('/onboarding/seeker');
+  }, [dispatch, handelClick]);
 
-  const handelClick = () => {
-    if (isSeeker) {
-      router.push('/onboarding/seeker');
-    } else if (isInvester) {
-      router.push('onboarding/invester');
-    } else {
-      router.push('/onboarding');
-    }
-  };
-  const requestLoanAction = () => {
-    setSekker();
-    handelClick();
-  };
-
-  const FundLoanAction = () => {
-    setInvester();
-    handelClick();
-  };
+  const fundLoanAction = useCallback(() => {
+    dispatch(uiActions.toggleIsSeeker(false));
+    dispatch(uiActions.toggleIsInvester(true));
+    handelClick('/onboarding/invester');
+  }, [dispatch, handelClick]);
 
   return (
-    <div className="bg-white pt-32 pb-5 ">
+    <div className="bg-white pt-32 pb-5">
       <div className="container mx-auto px-4">
         <div className="text-center">
           <h2 className="text-4xl font-semibold mb-4">Welcome to LancerLoan</h2>
@@ -51,8 +39,8 @@ export default function PurposeSection() {
         </div>
         <div className="flex justify-center space-x-8">
           <Card
-            className="w-[350px] py-[50px]  hover:cursor-pointer hover:scale-[102%] hover:border-[#AF6DEA] transition-all duration-200 ease-in-out hover:shadow-card"
-            onClick={() => requestLoanAction()}>
+            className="w-[350px] py-[50px] hover:cursor-pointer hover:scale-[102%] hover:border-[#AF6DEA] transition-all duration-200 ease-in-out hover:shadow-card"
+            onClick={requestLoanAction}>
             <CardContent className="flex flex-col items-center p-6">
               <MoneyIcon className="h-12 w-12 mb-4" />
               <h3 className="text-xl font-semibold mb-2">I want a Loan</h3>
@@ -60,8 +48,8 @@ export default function PurposeSection() {
           </Card>
 
           <Card
-            onClick={() => FundLoanAction()}
-            className="w-[350px] py-[50px]  hover:cursor-pointer hover:scale-[102%] hover:border-[#AF6DEA] transition-all duration-200 ease-in-out hover:shadow-card">
+            onClick={fundLoanAction}
+            className="w-[350px] py-[50px] hover:cursor-pointer hover:scale-[102%] hover:border-[#AF6DEA] transition-all duration-200 ease-in-out hover:shadow-card">
             <CardContent className="flex flex-col items-center p-6">
               <RocketIcon className="h-12 w-12 mb-4" />
               <h3 className="text-xl font-semibold mb-2">
