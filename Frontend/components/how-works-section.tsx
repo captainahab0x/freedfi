@@ -18,7 +18,7 @@ export default function HowWorksSection() {
                 <div className="p-4 mb-4 bg-[#AF6DEA] rounded-full">
                   <ShieldCheckIcon className="text-white h-8 w-8" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">
+                <h3 className="text-xl font-semibold mb-2 whitespace-nowrap">
                   Trust Credentials
                 </h3>
               </div>
@@ -28,7 +28,7 @@ export default function HowWorksSection() {
                 <div className="p-4 mb-4 bg-[#AF6DEA] rounded-full">
                   <LockIcon className="text-white h-8 w-8" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">
+                <h3 className="text-xl font-semibold mb-2 whitespace-nowrap">
                   Privacy and Security
                 </h3>
               </div>
@@ -38,7 +38,7 @@ export default function HowWorksSection() {
                 <div className="p-4 mb-4 bg-[#AF6DEA] rounded-full">
                   <BarChartIcon className="text-white h-8 w-8" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">
+                <h3 className="text-xl font-semibold mb-2 whitespace-nowrap">
                   Skill Capital Assessment
                 </h3>
               </div>

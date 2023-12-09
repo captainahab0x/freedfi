@@ -24,8 +24,8 @@ export default function DashboardSection() {
               <p className="text-gray-600">Manage your funds</p>
             </div>
             <div>
-              <h2 className="text-3xl font-semibold mb-5">Trust Credit</h2>
-              <p className="text-gray-600">No trust credit score</p>
+              <h2 className="text-3xl font-semibold mb-5">Trust credential</h2>
+              <p className="text-gray-600">No trusted credential score yet</p>
             </div>
           </div>
         </div>
