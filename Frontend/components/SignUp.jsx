@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+
 import GoogleLoginButton from '@/components/GoogleLoginButton';
 import InputField from '@/components/InputField';
 import EmailField from '@/components/EmailField';
@@ -61,6 +62,7 @@ const SignUp = ({ setIsSignUp }) => {
           <div className="">
             <GoogleLoginButton />
           </div>
+
           {/* Or option */}
           <div className="flex items-center mt-6 mb-6">
             <hr className="bg-light-gray w-full h-[1.5px]" />
