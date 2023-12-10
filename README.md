@@ -29,12 +29,6 @@ Data on the challenge:
 - A study by the Freelancers Union found that 63% of freelancers reported having difficulty obtaining a mortgage due to their irregular income, underscoring the limitations they encounter in traditional loan applications.
 
 There is no decentralized lending platform that allows for private, uncollateralized loans. We aim to offer our solution to tight-knit communities that want to leverage DeFi bring credit capital and investment returns to members.
-
-## Key Features:
-
-- Seamless cross-chain payments for ease of transactions, view code [here](https://github.com/CredLancer/LancersZK/blob/a6cf975a12f75c151ea4626f1f3e185f5b347a0a/credLancer_cross_chain/src/cross-chain/QuestControllerSender.sol) and [here](https://github.com/CredLancer/LancersZK/blob/e61c46fadfd2a8b454fd4012abd79f2df1e81f0f/credLancer_cross_chain/src/QuestController.sol#L203) .
-- A digital reputation framework ensuring privacy in payments, invoicing, and encouraging anonymous feedback. view code[here](https://github.com/CredLancer/LancersZK/blob/58d28bd6e9bff95a5f9e95e0938aa91f52a40f49/Credlancer_Privacy/packages/hardhat/scripts/request) 
-- Self-sovereign identities and verifiable credentials, utilizing Polygon's zkEVM and Polygon ID for decentralized NFT credential minting. view Code [here](https://github.com/CredLancer/LancersZK/blob/3150c3fa94b0fe67e8dde20c7eee955e998e91aa/credLancer_cross_chain/src/identity)
   
 ## Smart Contracts
 
