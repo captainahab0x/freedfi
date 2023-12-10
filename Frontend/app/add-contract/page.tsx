@@ -1,3 +1,4 @@
+'use client';
 import FooterSection from '@/components/footer-section';
 import HeaderSection from '@/components/header-section';
 import AddContractSection from '@/components/add-contract-section';
