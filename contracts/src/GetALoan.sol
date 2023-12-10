@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.20;
 
-import "./PoolController.sol";
+interface IPoolController {
+    function sendLoan(address payable borrower, address payable lender, uint256 amount) external;
+}
 
 contract LendingPlatform {
     enum Status {
@@ -16,7 +18,7 @@ contract LendingPlatform {
         trader = _trader;
     }
 
-    PoolController poolController = new PoolController(trader, address(this));
+    IPoolController poolController;
 
     mapping(address => mapping(address => uint256)) public borrowedAmounts;
     mapping(address => bool) public hasActiveLoan;
@@ -29,6 +31,12 @@ contract LendingPlatform {
     function addInvester(address lender) external {
         require(msg.sender == trader);
         investers[lender] = true;
+        require(investers[lender] == true);
+    }
+
+    function setPoolController(address pool) external {
+        require(msg.sender == trader);
+        poolController = IPoolController(pool);
     }
 
     function getInvesters(address lender) public view returns (bool) {
@@ -42,6 +50,7 @@ contract LendingPlatform {
     }
 
     function borrowRequest(address payable borrower, uint256 requestedAmount) external {
+        require(msg.sender == borrower);
         require(requestedAmount > 0, "Borrowed amount must be greater than zero");
         require(!hasActiveLoan[borrower], "Borrower can only borrow one loan at a time");
 
