@@ -194,7 +194,7 @@ const Onboarding = () => {
         <div className="absolute top-0 left-0 max-w-screen max-h-screen w-full h-full bg-geay-200 backdrop-blur-sm flex items-center justify-center">
           <div className="w-[520px] h-[300px] bg-gray-100 border rounded-lg p-10 border-[#AF6DEA]">
             <h1 className="text-2xl text-center">
-              Would you like the confrim the Loan for
+              Would you like to confrim the Funding
             </h1>
             <h1 className="bg-[#af6dea] mt-10 w-fit mx-auto text-white text-5xl font-bold">
               $ {investerAmount}
@@ -203,7 +203,7 @@ const Onboarding = () => {
               <button
                 onClick={handelSubmit}
                 className="text-[#0e0e0e] rounded-md mt-10 mx-auto z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  py-2 hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer">
-                confrim
+                Confrim Funding
               </button>
             </div>
           </div>

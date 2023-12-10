@@ -38,13 +38,6 @@ const Connect = () => {
     <div className="font-poppins font-normal cursor-pointer text-[16px] text-black bg-blue-gradient p-2.5 rounded-md transform transition-all duration-300 hover:scale-110">
       {walletAddress.length > 0 ? (
         <div className="flex items-center">
-          <Image
-            src="/green.svg"
-            alt="connected"
-            width={15}
-            height={15}
-            className="rounded-full mr-2"
-          />
           <span className="mr-1 mt-1">
             {String(walletAddress).substring(0, 6) +
               '...' +

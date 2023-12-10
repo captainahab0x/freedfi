@@ -392,7 +392,7 @@ const Onboarding = () => {
               Would you like the confrim the Loan for
             </h1>
             <h1 className="bg-[#af6dea] mt-10 w-fit mx-auto text-white text-5xl font-bold">
-              $ {loanAmount}
+              {loanAmount} ETH
             </h1>
             <div className="w-full flex justify-center">
               <button
