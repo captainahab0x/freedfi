@@ -1,6 +1,6 @@
+'use client';
 import { useState, useEffect } from 'react';
 import { connectWallet, getCurrentWalletConnected } from '@/utils/interact';
-import Image from 'next/image';
 
 const Connect = () => {
   const [walletAddress, setWallet] = useState('');
