@@ -1,12 +1,10 @@
-import '@rainbow-me/rainbowkit/styles.css';
-
 import { Button } from '@/components/ui/button';
 import { Avatar } from '@/components/ui/avatar';
 import Link from 'next/link';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { Poller_One } from 'next/font/google';
 import { Sheet, SheetContent, SheetTrigger } from '../components/ui/sheet';
 import { Menu, Moon, Sun } from 'lucide-react';
+import Connect from './Connect';
 
 const poller_one = Poller_One({
   weight: ['400'],
@@ -77,10 +75,10 @@ export default function HeaderSection() {
         </nav>
         <div className="flex items-center">
           <div className="hidden lg:block">
-            <ConnectButton />
+            <Connect />
           </div>
           <div className="lg:hidden">
-            <ConnectButton showBalance={false} chainStatus="none" />
+            <Connect />
           </div>
         </div>
       </div>

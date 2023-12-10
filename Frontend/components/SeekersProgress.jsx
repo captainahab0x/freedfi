@@ -7,7 +7,7 @@ const poppins = Poppins({
   subsets: ['latin'],
 });
 
-const SeekersProgress = ({ setLoanAmount, handleSliderChange, loanAmount }) => {
+const SeekersProgress = ({ handleSliderChange, loanAmount }) => {
   return (
     <div>
       <h1 className="text-3xl font-bold text-center mb-2">
@@ -27,14 +27,14 @@ const SeekersProgress = ({ setLoanAmount, handleSliderChange, loanAmount }) => {
         <Slider
           value={loanAmount} // Pass the array as the value
           onValueChange={handleSliderChange} // Use onValueChange instead of onChange
-          max={20000}
+          max={20}
           step={1}
         />
       </div>
       <div className="flex mt-8 gap-5 max-w-lg mx-auto justify-between">
         <p className="text-xl font-semibold uppercase">Your Loan Amount</p>
         <p className="px-4 py-2 border border-[#af6dea] rounded">
-          $ {loanAmount[0]}
+          {loanAmount[0]} ETH
         </p>{' '}
         {/* Access the first element of the array */}
       </div>

@@ -8,7 +8,6 @@ import Image from 'next/image';
 import RightArrow from '@/assets/RightArrow.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import toast, { Toaster } from 'react-hot-toast';
-import { onboardingActions } from '@/store/onboarding-slice';
 import BlackTick from '@/assets/BlackTick.svg';
 import BlackDownArrow from '@/assets/BlackDownArrow.svg';
 import SeekersProof from '../../../components/SeekersProof';
@@ -16,6 +15,170 @@ import SeekersProgress from '../../../components/SeekersProgress';
 import SeekersAdditionalProof from '../../../components/SeekersAdditionalProof';
 import { useRouter } from 'next/navigation';
 import { uiActions } from '@/store/ui-slice';
+const alchemyKey = process.env.NEXT_PUBLIC_SEPOLIA_URL;
+const { createAlchemyWeb3 } = require('@alch/alchemy-web3');
+const web3 = createAlchemyWeb3(alchemyKey);
+const contractAddress = '0xF9A67C9df887dcBEBe92AFE8Ad99DC67b2D84fE1';
+const contractABI = [
+  {
+    type: 'constructor',
+    inputs: [{ name: '_trader', type: 'address', internalType: 'address' }],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'addInvester',
+    inputs: [{ name: 'lender', type: 'address', internalType: 'address' }],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'borrowApprove',
+    inputs: [
+      { name: 'borrower', type: 'address', internalType: 'address payable' },
+      { name: 'amount', type: 'uint256', internalType: 'uint256' },
+    ],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'borrowRequest',
+    inputs: [
+      { name: 'borrower', type: 'address', internalType: 'address payable' },
+      { name: 'requestedAmount', type: 'uint256', internalType: 'uint256' },
+    ],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'borrowedAmounts',
+    inputs: [
+      { name: '', type: 'address', internalType: 'address' },
+      { name: '', type: 'address', internalType: 'address' },
+    ],
+    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'getBorrowedAmount',
+    inputs: [
+      { name: 'lender', type: 'address', internalType: 'address payable' },
+    ],
+    outputs: [{ name: '', type: 'uint256', internalType: 'uint256' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'getInvesters',
+    inputs: [{ name: 'lender', type: 'address', internalType: 'address' }],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'hasActiveLoan',
+    inputs: [{ name: '', type: 'address', internalType: 'address' }],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'investers',
+    inputs: [{ name: '', type: 'address', internalType: 'address' }],
+    outputs: [{ name: '', type: 'bool', internalType: 'bool' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'market',
+    inputs: [
+      { name: '', type: 'address', internalType: 'address' },
+      { name: '', type: 'uint256', internalType: 'uint256' },
+    ],
+    outputs: [
+      { name: '', type: 'uint8', internalType: 'enum LendingPlatform.Status' },
+    ],
+    stateMutability: 'view',
+  },
+  {
+    type: 'function',
+    name: 'repay',
+    inputs: [
+      { name: 'lender', type: 'address', internalType: 'address payable' },
+      { name: 'borrower', type: 'address', internalType: 'address payable' },
+    ],
+    outputs: [],
+    stateMutability: 'payable',
+  },
+  {
+    type: 'function',
+    name: 'setPoolController',
+    inputs: [{ name: 'pool', type: 'address', internalType: 'address' }],
+    outputs: [],
+    stateMutability: 'nonpayable',
+  },
+  {
+    type: 'function',
+    name: 'trader',
+    inputs: [],
+    outputs: [{ name: '', type: 'address', internalType: 'address' }],
+    stateMutability: 'view',
+  },
+  {
+    type: 'event',
+    name: 'Borrowed',
+    inputs: [
+      {
+        name: 'lender',
+        type: 'address',
+        indexed: true,
+        internalType: 'address',
+      },
+      {
+        name: 'borrower',
+        type: 'address',
+        indexed: true,
+        internalType: 'address',
+      },
+      {
+        name: 'amount',
+        type: 'uint256',
+        indexed: false,
+        internalType: 'uint256',
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: 'event',
+    name: 'Repaid',
+    inputs: [
+      {
+        name: 'lender',
+        type: 'address',
+        indexed: true,
+        internalType: 'address',
+      },
+      {
+        name: 'borrower',
+        type: 'address',
+        indexed: true,
+        internalType: 'address',
+      },
+      {
+        name: 'amount',
+        type: 'uint256',
+        indexed: false,
+        internalType: 'uint256',
+      },
+    ],
+    anonymous: false,
+  },
+];
 
 const Onboarding = () => {
   const dispatch = useDispatch();
@@ -24,12 +187,31 @@ const Onboarding = () => {
   const router = useRouter();
   const targetRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [loanAmount, setLoanAmount] = useState([5000]); // State as an array
+  const [loanAmount, setLoanAmount] = useState([1]); // State as an array
   const [showModal, setShowModal] = useState(false);
 
-  const handelSubmit = () => {
-    dispatch(uiActions.toggleConfetti(true));
+  const handelSubmit = async () => {
+    window.contract = await new web3.eth.Contract(contractABI, contractAddress);
+    const loanAmountWei = web3.utils
+      .toBN(Number(loanAmount))
+      .mul(web3.utils.toBN('1000000000000000000'));
+    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
     router.push('/dashboard');
+    const selectedAddress = accounts[0];
+    const transactionParameters = {
+      to: contractAddress, // Required except during contract publications.
+      from: selectedAddress, // must match user's active address.
+      data: window.contract.methods
+        .borrowRequest(selectedAddress, loanAmountWei)
+        .encodeABI(), //make call to NFT smart contract
+    };
+
+    const txHash = await window.ethereum.request({
+      method: 'eth_sendTransaction',
+      params: [transactionParameters],
+    });
+    console.log(txHash);
+    dispatch(uiActions.toggleConfetti(true));
   };
 
   const handleSliderChange = (value) => {
