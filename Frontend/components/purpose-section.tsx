@@ -1,3 +1,5 @@
+'use client';
+
 import { useRouter } from 'next/navigation';
 import { CardContent, Card } from '@/components/ui/card';
 import { SVGProps, useCallback } from 'react';
