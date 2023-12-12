@@ -15,7 +15,7 @@ import SeekersProgress from '../../../components/SeekersProgress';
 import SeekersAdditionalProof from '../../../components/SeekersAdditionalProof';
 import { useRouter } from 'next/navigation';
 import { uiActions } from '@/store/ui-slice';
-const alchemyKey = process.env.NEXT_PUBLIC_SEPOLIA_URL;
+const alchemyKey = process.env.NEXT_PUBLIC_XDC_URL;
 const { createAlchemyWeb3 } = require('@alch/alchemy-web3');
 const web3 = createAlchemyWeb3(alchemyKey);
 const contractAddress = '0xF9A67C9df887dcBEBe92AFE8Ad99DC67b2D84fE1';
