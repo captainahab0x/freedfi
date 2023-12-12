@@ -1,16 +1,15 @@
 import { useRouter } from 'next/navigation';
 import { CardContent, Card } from '@/components/ui/card';
-import { useCallback } from 'react';
+import { SVGProps, useCallback } from 'react';
 import { uiActions } from '@/store/ui-slice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 export default function PurposeSection() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const { isInvester, isSeeker } = useSelector((state) => state.ui);
 
   const handelClick = useCallback(
-    (route) => {
+    (route: string) => {
       router.push(route);
     },
     [router]
