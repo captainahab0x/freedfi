@@ -1,3 +1,5 @@
+'use client';
+
 import HeroSection from '@/components/hero-section';
 import HowWorksSection from '@/components/how-works-section';
 import ApplyForLoanSection from '@/components/apply-for-loan-section';
