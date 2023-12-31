@@ -1,17 +1,21 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { connectWallet, getCurrentWalletConnected } from '@/utils/interact';
 
 const Connect = () => {
-  const [walletAddress, setWallet] = useState('');
+
+  const router = useRouter();
+
+  const [walletAddress, setWalletAddress] = useState('');
 
   function addWalletListener() {
     if (window.ethereum) {
       window.ethereum.on('accountsChanged', (accounts) => {
         if (accounts.length > 0) {
-          setWallet(accounts[0]);
+          setWalletAddress(accounts[0]);
         } else {
-          setWallet('');
+          setWalletAddress('');
         }
       });
     }
@@ -20,7 +24,7 @@ const Connect = () => {
   useEffect(() => {
     async function fetchData() {
       const { address } = await getCurrentWalletConnected();
-      setWallet(address);
+      setWalletAddress(address);
 
       addWalletListener();
     }
@@ -30,8 +34,8 @@ const Connect = () => {
 
   const connectWalletPressed = async () => {
     const walletResponse = await connectWallet();
-
-    setWallet(walletResponse.address);
+    setWalletAddress(walletResponse.address);
+    router.push('/onboarding');
   };
 
   return (

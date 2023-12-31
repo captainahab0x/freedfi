@@ -1,3 +1,5 @@
+export const contractAddress = '0x1E758656f3Ba1aC562b6D93D08E2ffE0DbE347B0'
+
 export const connectWallet = async () => {
   if (window.ethereum) {
     try {
