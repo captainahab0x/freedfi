@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { connectWallet, getCurrentWalletConnected } from '@/utils/interact';
+import { connectWallet, getCurrentWalletConnected } from '@/lib/utils/interact';
 
 const Connect = () => {
 
