@@ -67,12 +67,17 @@ const JobsAndCompaniesModal = ({ isModalOpen, setIsModalOpen }) => {
   const { role, company, location, type, remote, logo, posted_on, domain } =
     data || datadummy;
 
-  useEffect(() => {}, [data]);
+    
+    const handelClose = () => {
+      setIsModalOpen(false);
+      dispatch(postsActions.setSelectedCard(null));
+    };
 
-  const handelClose = () => {
-    setIsModalOpen(false);
-    dispatch(postsActions.setSelectedCard(null));
-  };
+    const fundHandler = async () => {
+      
+    }
+    
+    useEffect(() => {}, [data]);
 
   return (
     <div
@@ -137,7 +142,7 @@ const JobsAndCompaniesModal = ({ isModalOpen, setIsModalOpen }) => {
                 <SaveOutlineButton isShare={true} />
               </div>
               <div className="">
-                <button className="max-w-[13.25rem]   mx-auto  bg-primary-button px-4 rounded font-semibold text-[0.875rem] h-[2.5rem] flex items-center gap-2 hover:bg-secondary-button hover:-translate-y-0.5  hover:shadow-button ease-in-out-expo transform transition-transform duration-150 cursor-pointer ">
+                <button onClick={fundHandler} className="max-w-[13.25rem]   mx-auto  bg-primary-button px-4 rounded font-semibold text-[0.875rem] h-[2.5rem] flex items-center gap-2 hover:bg-secondary-button hover:-translate-y-0.5  hover:shadow-button ease-in-out-expo transform transition-transform duration-150 cursor-pointer ">
                   <span>Fund</span>
                   <Image
                     src={RightArrow}
