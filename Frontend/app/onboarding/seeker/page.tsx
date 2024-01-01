@@ -3,7 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRef } from 'react';
-import { getCurrentWalletConnected, contractAddress } from '@/utils/interact';
+import { 
+  getContractInstance, 
+  getCurrentWalletConnected, 
+  convertToWei 
+} from '@/utils';
 import BackLogo from '@/assets/LeftGrayArrow.svg';
 import Image from 'next/image';
 import RightArrow from '@/assets/RightArrow.svg';
@@ -16,12 +20,6 @@ import SeekersProgress from '../../../components/SeekersProgress';
 import SeekersAdditionalProof from '../../../components/SeekersAdditionalProof';
 import { useRouter } from 'next/navigation';
 import { uiActions } from '@/store/ui-slice';
-import LendingPlatform from '../../../../contracts/out/GetALoan.sol/LendingPlatform.json'
-
-// import { borrowLoan } from '@/lib/utils';
-const alchemyKey = process.env.NEXT_PUBLIC_ALCHEMY_KEY;
-const { createAlchemyWeb3 } = require('@alch/alchemy-web3');
-const web3 = createAlchemyWeb3(alchemyKey);
 
 const Onboarding: React.FC = () => {
 
@@ -39,18 +37,12 @@ const Onboarding: React.FC = () => {
 
   const handleSubmit = async () => {
 
-  const contractABI = LendingPlatform.abi
-
-  // Connect to the contract using the provider
-  const contract = new web3.eth.Contract(contractABI, contractAddress);
-
+  const contract = getContractInstance();
   const senderAddress = (await getCurrentWalletConnected()).address
 
-
   try {
-    const loanAmountWei = web3.utils.toWei(String(loanAmount[0]), 'ether');
 
-    const transaction = await contract.methods.borrowRequest(senderAddress, loanAmountWei).send({
+    const transaction = await contract.methods.borrowRequest(senderAddress, convertToWei(loanAmount[0])).send({
       from: senderAddress,
     });
 
