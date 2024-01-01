@@ -12,7 +12,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head />
       <body>
-        <ReduxProvider store={store}>{children}</ReduxProvider>
+        <ReduxProvider store={store}>
+          {children}
+        </ReduxProvider>
       </body>
     </html>
   );

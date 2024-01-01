@@ -2,18 +2,40 @@
 
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
-import { JSX, SVGProps } from 'react';
+import { JSX, SVGProps, useEffect, useState } from 'react';
 import { CardContent, Card } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
+import { getContractInstance, getCurrentWalletConnected } from '@/lib/utils';
 
 export default function DashboardSection() {
   const router = useRouter();
+
+  const [fundedAmount, setFundedAmount] = useState<number>(0)
 
   const requestLoanAction = () => {
     console.log('Request Loan Action');
     router.push('/add-contract');
   };
 
+useEffect(() => {
+    const fetchFundedAmount = async () => {
+      const contract = getContractInstance();
+      const { address } = await getCurrentWalletConnected()
+
+      try {
+        
+        const amt = await contract.methods.getBorrowedAmount(address).call()
+        setFundedAmount(amt)
+
+      } catch (error) {
+        console.error('Error fetching funded amount:', error);
+      }
+    };
+
+    fetchFundedAmount();
+  }, []);
+
+// getBorrowedAmount
   return (
     <div className="text-black bg-white pt-40 pb-16 px-8">
       <div className="flex justify-center space-x-4">
@@ -38,7 +60,7 @@ export default function DashboardSection() {
                   <div className="flex flex-col items-center space-y-2 pt-4">
                     <MoneyIcon className="text-yellow-500" />
                     <h3 className="text-lg font-semibold">Funded</h3>
-                    <p className="text-3xl font-bold">20,000</p>
+                    <p className="text-3xl font-bold">{fundedAmount}</p>
                     <Button
                       variant="outline"
                       onClick={() => requestLoanAction()}>

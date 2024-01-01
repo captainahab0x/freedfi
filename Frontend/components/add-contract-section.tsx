@@ -5,6 +5,11 @@ import { Poppins } from 'next/font/google';
 import { uiActions } from '@/store/ui-slice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
+import { 
+  convertToWei, 
+  getContractInstance, 
+  getCurrentWalletConnected 
+} from '@/lib/utils';
 
 const poppins = Poppins({
   weight: '400',
@@ -21,7 +26,25 @@ const SeekersProgress = () => {
     setLoanAmount(value); // Directly use the array value
   };
 
-  const handelSubmit = () => {
+  const handelSubmit = async () => {
+
+    const contract = getContractInstance();
+    const senderAddress = (await getCurrentWalletConnected()).address
+
+  try {
+
+    const transaction = await contract.methods.borrowRequest(senderAddress, convertToWei(loanAmount[0])).send({
+      from: senderAddress,
+    });
+
+    console.log('Transaction hash:', transaction.transactionHash)
+    
+    router.push('/dashboard');
+
+    dispatch(uiActions.toggleConfetti(true));
+  } catch (error) {
+    console.error('Error submitting transaction:', error);
+  }
     dispatch(uiActions.toggleConfetti(true));
     router.push('/dashboard');
   };
