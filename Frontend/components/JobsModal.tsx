@@ -12,6 +12,9 @@ import UpcomingSlide from './UpcomingSlide';
 import { useDispatch, useSelector } from 'react-redux';
 import { postsActions } from '@/store/posts-slice';
 import { useEffect } from 'react';
+import { convertToWei, getContractInstance, getCurrentWalletConnected } from '@/lib/utils';
+import { debug } from 'console';
+
 
 const datadummy = {
   id: 1,
@@ -75,6 +78,21 @@ const JobsAndCompaniesModal = ({ isModalOpen, setIsModalOpen }) => {
 
     const fundHandler = async () => {
       
+      const contract = getContractInstance();
+      const { address } = await getCurrentWalletConnected()
+      const borrower = '0x3dc00aad844393c110b61aed5849b7c82104e748'
+
+      try {
+
+        const transaction = await contract.methods.borrowApprove(borrower, convertToWei(0.002)).send({
+          from: address,
+        });
+
+        console.log('Transaction hash:', transaction)
+        
+      } catch (error) {
+        console.error('Error submitting transaction:', error);
+      }
     }
     
     useEffect(() => {}, [data]);

@@ -7,7 +7,7 @@ import {
   getContractInstance, 
   getCurrentWalletConnected, 
   convertToWei 
-} from '@/utils';
+} from '@/lib/utils';
 import BackLogo from '@/assets/LeftGrayArrow.svg';
 import Image from 'next/image';
 import RightArrow from '@/assets/RightArrow.svg';
