@@ -1,4 +1,5 @@
 'use client';
+
 import DashboardSection from '@/components/dashboard-section';
 import HeaderSection from '@/components/header-section';
 import FooterSection from '@/components/footer-section';
