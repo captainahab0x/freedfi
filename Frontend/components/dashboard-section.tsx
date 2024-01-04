@@ -1,41 +1,62 @@
 'use client';
 
+import { useAccount, useContractWrite, useContractRead } from 'wagmi';
 import { Button } from '@/components/ui/button';
 import { Slider } from '@/components/ui/slider';
 import { JSX, SVGProps, useEffect, useState } from 'react';
 import { CardContent, Card } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
-import { getContractInstance, getCurrentWalletConnected } from '@/lib/utils';
+import { 
+  convertToWei, 
+  getContractInstance, 
+  getCurrentWalletConnected,
+  LPcontractAddress,
+  PCcontractAddress
+ } from '@/lib/utils';
+import { parseGwei } from 'viem';
+import PoolController from '../../contracts/out/PoolController.sol/PoolController.json'
+import LendingPlatform from '../../contracts/out/GetALoan.sol/LendingPlatform.json'
 
 export default function DashboardSection() {
   const router = useRouter();
+  const { address } = useAccount()
 
   const [fundedAmount, setFundedAmount] = useState<number>(0)
 
-  const requestLoanAction = () => {
-    console.log('Request Loan Action');
+   const deposit = useContractWrite({
+    address: PCcontractAddress,
+    abi: PoolController.abi,
+    functionName: 'deposit',
+    value: parseGwei('0.0008'),
+  })
+
+
+
+  const requestLoan = async() => {
+    
     router.push('/add-contract');
   };
 
+  const {data} = useContractRead({
+    address: LPcontractAddress,
+    abi: LendingPlatform.abi,
+    functionName: 'getBorrowedAmount',
+    args: ['0x3DC00AaD844393c110b61aED5849b7c82104e748'],
+  })
+
+console.log(Number(data))
+
+  
+
 useEffect(() => {
-    const fetchFundedAmount = async () => {
-      const contract = getContractInstance();
-      const { address } = await getCurrentWalletConnected()
+    
+// const res = fetchFundedAmount.write()
+//   console.log('res')
+//   console.log(res)
+ 
+  }, [useContractWrite]);
 
-      try {
-        
-        const amt = await contract.methods.getBorrowedAmount(address).call()
-        setFundedAmount(amt)
 
-      } catch (error) {
-        console.error('Error fetching funded amount:', error);
-      }
-    };
-
-    fetchFundedAmount();
-  }, []);
-
-// getBorrowedAmount
   return (
     <div className="text-black bg-white pt-40 pb-16 px-8">
       <div className="flex justify-center space-x-4">
@@ -63,7 +84,7 @@ useEffect(() => {
                     <p className="text-3xl font-bold">{fundedAmount}</p>
                     <Button
                       variant="outline"
-                      onClick={() => requestLoanAction()}>
+                      onClick={() => requestLoan()}>
                       Request Now
                     </Button>
                   </div>
@@ -75,7 +96,7 @@ useEffect(() => {
                     <RocketIcon className="text-red-500" />
                     <h3 className="text-lg font-semibold">Invested</h3>
                     <p className="text-3xl font-bold">0</p>
-                    <Button variant="outline">Invest Now</Button>
+                    <Button onClick={() => deposit.write()} variant="outline">Invest Now</Button> 
                   </div>
                 </CardContent>
               </Card>

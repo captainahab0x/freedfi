@@ -6,10 +6,13 @@ import { uiActions } from '@/store/ui-slice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { 
+  LPcontractAddress,
   convertToWei, 
   getContractInstance, 
   getCurrentWalletConnected 
 } from '@/lib/utils';
+import { useAccount, useContractWrite } from 'wagmi';
+import LendingPlatform from '../../contracts/out/GetALoan.sol/LendingPlatform.json'
 
 const poppins = Poppins({
   weight: '400',
@@ -19,35 +22,33 @@ const poppins = Poppins({
 const SeekersProgress = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [loanAmount, setLoanAmount] = useState([5000]);
+  const { address } = useAccount()
+
+  const [loanAmount, setLoanAmount] = useState([0.0002]);
   const [showModal, setShowModal] = useState(false);
 
   const handleSliderChange = (value) => {
     setLoanAmount(value); // Directly use the array value
   };
 
-  const handelSubmit = async () => {
+  const borrowRequest = useContractWrite({
+    address: LPcontractAddress,
+    abi: LendingPlatform.abi,
+    functionName: 'borrowRequest',
+    args: [address, convertToWei(loanAmount[0])],
+  })
 
-    const contract = getContractInstance();
-    const senderAddress = (await getCurrentWalletConnected()).address
-
-  try {
-
-    const transaction = await contract.methods.borrowRequest(senderAddress, convertToWei(loanAmount[0])).send({
-      from: senderAddress,
-    });
-
-    console.log('Transaction hash:', transaction.transactionHash)
-    
-    router.push('/dashboard');
-
-    dispatch(uiActions.toggleConfetti(true));
-  } catch (error) {
-    console.error('Error submitting transaction:', error);
-  }
-    dispatch(uiActions.toggleConfetti(true));
-    router.push('/dashboard');
-  };
+ const borrowRequestHandler = async () => {
+   try {
+      await borrowRequest.write()
+      if (borrowRequest.isSuccess) {
+        router.push('/dashboard');
+        dispatch(uiActions.toggleConfetti(true));
+      }
+    } catch (error) {
+      console.log('Encountered error: ', error)
+    }
+ }
 
   return (
     <div>
@@ -67,7 +68,7 @@ const SeekersProgress = () => {
           value={loanAmount} // Pass the array as the value
           onValueChange={handleSliderChange} // Use onValueChange instead of onChange
           max={20000}
-          step={1}
+          step={0.0002}
         />
       </div>
       <div className="flex mt-8 gap-5 max-w-lg mx-auto justify-between">
@@ -81,23 +82,23 @@ const SeekersProgress = () => {
         <button
           onClick={() => setShowModal(true)}
           className="text-[#0e0e0e] rounded-md  z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer py-2">
-          Confrim The Request
+          Confirm The Request
         </button>
       </div>
       {showModal && (
         <div className="absolute top-0 left-0 max-w-screen max-h-screen w-full h-full bg-geay-200 backdrop-blur-sm flex items-center justify-center">
           <div className="w-[520px] h-[300px] bg-gray-100 border rounded-lg p-10 border-[#AF6DEA]">
             <h1 className="text-2xl text-center">
-              Would you like the confrim the Loan for
+              Would you like the confirm the Loan for
             </h1>
             <h1 className="bg-[#af6dea] mt-10 w-fit mx-auto text-white text-5xl font-bold">
               $ {loanAmount}
             </h1>
             <div className="w-full flex justify-center">
               <button
-                onClick={handelSubmit}
+                onClick={() => borrowRequestHandler()}
                 className="text-[#0e0e0e] rounded-md mt-10 mx-auto z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  py-2 hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer">
-                confrim
+                confirm
               </button>
             </div>
           </div>

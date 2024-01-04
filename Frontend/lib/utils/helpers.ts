@@ -11,5 +11,5 @@ export const cn = (...inputs: ClassValue[]) => {
 
 
 export const convertToWei = (value: number) => {
-  return web3.utils.toWei(value.toString(), 'ether');
+  return web3.utils.toWei(String(value), 'ether');
 };

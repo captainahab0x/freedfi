@@ -10,18 +10,28 @@ import {
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { arbitrumSepolia } from 'wagmi/chains';
+import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc'
 
 const projectId = process.env.NEXT_PUBLIC_PROJECTID as string
+const http = process.env.NEXT_PUBLIC_ALCHEMY_KEY as string
 
 const { chains, publicClient } = configureChains(
   [arbitrumSepolia],
-  [ publicProvider() ]
+  [
+    jsonRpcProvider({
+      rpc: (chain) => ({
+        http,
+        // http: `https://${chain.id}.example.com`,
+      }),
+    })
+  ]
 );
 
 const { connectors } = getDefaultWallets({
   appName: 'FreedFi',
-  projectId: 'YOUR_PROJECT_ID',
+  projectId,
   chains
 });
 

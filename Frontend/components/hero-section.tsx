@@ -3,7 +3,7 @@ import { Poller_One } from 'next/font/google';
 import { JSX, SVGProps } from 'react';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { getCurrentWalletConnected } from '@/lib/utils';
+import { useAccount } from 'wagmi'
 
 const poller_one = Poller_One({
   weight: ['400'],
@@ -12,10 +12,10 @@ const poller_one = Poller_One({
 
 export default function HeroSection() {
   const router = useRouter();
+  const { isConnected } = useAccount()
 
   const heroAction = async () => {
-    const { address } = await getCurrentWalletConnected()
-    if (address) {
+    if (isConnected) {
       router.push('/dashboard');
     } else {
       router.push('/auth');

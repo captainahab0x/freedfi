@@ -1,8 +1,9 @@
 'use client';
 
+import { useAccount } from 'wagmi';
 import SignIn from '../../components/SignIn';
 import SignUp from '../../components/SignUp';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
 import { Poller_One } from 'next/font/google';
@@ -17,7 +18,16 @@ const inter = Inter({
 });
 
 const Auth = () => {
+
+  const { isConnected } = useAccount()
+
   const [isSignUp, setIsSignUp] = useState(true);
+
+  useEffect(() => {
+    if (isConnected) {
+      window.location.href = '/dashboard' 
+    }
+  }, [isConnected]);
 
   return (
     <div className={`${inter.className}`}>
