@@ -12,9 +12,13 @@ import { onboardingActions } from '@/store/onboarding-slice';
 import BlackTick from '@/assets/BlackTick.svg';
 import BlackDownArrow from '@/assets/BlackDownArrow.svg';
 import InvesterProof from '../../../components/InvesterProof';
-import InvesterCommitment from '../../../components/InvesterCommitment';
+import InvestorCommitment from '../../../components/InvestorCommitment';
 import { useRouter } from 'next/navigation';
 import { uiActions } from '@/store/ui-slice';
+import { 
+  getContractInstance, 
+  getCurrentWalletConnected
+} from '@/lib/utils';
 
 const Onboarding = () => {
   const dispatch = useDispatch();
@@ -23,19 +27,38 @@ const Onboarding = () => {
   const router = useRouter();
   const targetRef = useRef(null);
   const [isMobile, setIsMobile] = useState(false);
-  const [investerAmount, setInvesterAmount] = useState([20000]); // State as an array
+  const [investorAmount, setInvestorAmount] = useState([0.0005]); // State as an array
   const [showModal, setShowModal] = useState(false);
 
-  const handelSubmit = () => {
+  const handleSubmit = async () => {
+
+    const contract = getContractInstance();
+    const { address } = await getCurrentWalletConnected()
+
+  try {
+
+    const transaction = await contract.methods.addInvester(address).send({
+      from: address,
+    });
+
+    console.log('Transaction hash:', transaction)
+    
+    // router.push('/dashboard');
+
+    dispatch(uiActions.toggleConfetti(true));
+
+  } catch (error) {
+    console.error('Error submitting transaction:', error);
+  }
     dispatch(uiActions.toggleConfetti(true));
     router.push('/dashboard');
   };
 
   const handleSliderChange = (value) => {
-    if (value < 20000) {
-      setInvesterAmount([20000]); // Directly use the array value
+    if (value < 0.0005) {
+      setInvestorAmount([0.0005]); // Directly use the array value
     } else {
-      setInvesterAmount(value);
+      setInvestorAmount(value);
     }
   };
 
@@ -169,8 +192,8 @@ const Onboarding = () => {
               transition={{ duration: 0.3 }}>
               {index === 0 && <InvesterProof />}
               {index === 1 && (
-                <InvesterCommitment
-                  investerAmount={investerAmount}
+                <InvestorCommitment
+                  investorAmount={investorAmount}
                   handleSliderChange={handleSliderChange}
                 />
               )}
@@ -194,16 +217,16 @@ const Onboarding = () => {
         <div className="absolute top-0 left-0 max-w-screen max-h-screen w-full h-full bg-geay-200 backdrop-blur-sm flex items-center justify-center">
           <div className="w-[520px] h-[300px] bg-gray-100 border rounded-lg p-10 border-[#AF6DEA]">
             <h1 className="text-2xl text-center">
-              Would you like to confrim the Funding
+              Would you like to confirm the Funding
             </h1>
             <h1 className="bg-[#af6dea] mt-10 w-fit mx-auto text-white text-5xl font-bold">
-              $ {investerAmount}
+              $ {investorAmount}
             </h1>
             <div className="w-full flex justify-center">
               <button
-                onClick={handelSubmit}
+                onClick={handleSubmit}
                 className="text-[#0e0e0e] rounded-md mt-10 mx-auto z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  py-2 hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer">
-                Confrim Funding
+                Confirm Funding
               </button>
             </div>
           </div>

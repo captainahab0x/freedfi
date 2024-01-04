@@ -77,17 +77,16 @@ const JobsAndCompaniesModal = ({ isModalOpen, setIsModalOpen }) => {
     };
 
     const fundHandler = async () => {
-      
+      debugger
       const contract = getContractInstance();
       const { address } = await getCurrentWalletConnected()
       const borrower = '0x3dc00aad844393c110b61aed5849b7c82104e748'
 
       try {
 
-        const transaction = await contract.methods.borrowApprove(borrower, convertToWei(0.002)).send({
-          from: address,
+        const transaction = await contract.methods.borrowApprove(borrower, convertToWei(0.00065)).send({
+          from: address
         });
-
         console.log('Transaction hash:', transaction)
         
       } catch (error) {

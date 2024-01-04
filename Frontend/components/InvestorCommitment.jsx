@@ -7,7 +7,7 @@ const poppins = Poppins({
   subsets: ['latin'],
 });
 
-const InvesterCommitment = ({ handleSliderChange, investerAmount }) => {
+const InvestorCommitment = ({ handleSliderChange, investorAmount }) => {
   return (
     <div>
       <h1 className="text-3xl font-bold text-center mb-2">
@@ -23,16 +23,16 @@ const InvesterCommitment = ({ handleSliderChange, investerAmount }) => {
       </p>
       <div className="mt-6 max-w-lg mx-auto">
         <Slider
-          value={investerAmount} // Pass the array as the value
+          value={investorAmount} // Pass the array as the value
           onValueChange={handleSliderChange} // Use onValueChange instead of onChange
           max={100000}
-          step={1}
+          step={0.0005}
         />
       </div>
       <div className="flex mt-8 gap-5 max-w-lg mx-auto justify-between">
         <p className="text-xl font-semibold uppercase">Your Loan Amount</p>
         <p className="px-4 py-2 border border-[#af6dea] rounded">
-          $ {investerAmount[0]}
+          $ {investorAmount[0]}
         </p>{' '}
         {/* Access the first element of the array */}
       </div>
@@ -40,4 +40,4 @@ const InvesterCommitment = ({ handleSliderChange, investerAmount }) => {
   );
 };
 
-export default InvesterCommitment;
+export default InvestorCommitment;
