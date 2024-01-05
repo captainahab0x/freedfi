@@ -12,8 +12,11 @@ import UpcomingSlide from './UpcomingSlide';
 import { useDispatch, useSelector } from 'react-redux';
 import { postsActions } from '@/store/posts-slice';
 import { useEffect } from 'react';
-import { convertToWei, getContractInstance, getCurrentWalletConnected } from '@/lib/utils';
-import { debug } from 'console';
+import { LPcontractAddress, convertToWei, getContractInstance, getCurrentWalletConnected } from '@/lib/utils';
+import LendingPlatform from '../../contracts/out/GetALoan.sol/LendingPlatform.json'
+import { useContractWrite, useAccount } from 'wagmi';
+import { parseEther, parseGwei } from 'viem';
+import { uiActions } from '@/store/ui-slice';
 
 
 const datadummy = {
@@ -64,6 +67,7 @@ const upcomingWebinars = [
 
 const JobsAndCompaniesModal = ({ isModalOpen, setIsModalOpen }) => {
   const dispatch = useDispatch();
+  const { address } = useAccount()
 
   const data = useSelector((state) => state.posts?.selectedCard);
 
@@ -76,24 +80,24 @@ const JobsAndCompaniesModal = ({ isModalOpen, setIsModalOpen }) => {
       dispatch(postsActions.setSelectedCard(null));
     };
 
-    const fundHandler = async () => {
-      debugger
-      const contract = getContractInstance();
-      const { address } = await getCurrentWalletConnected()
-      const borrower = '0x3dc00aad844393c110b61aed5849b7c82104e748'
+     const { data: approveData, isLoading: approveLoading, isSuccess: approveSuccess, writeAsync: approveWrite } = useContractWrite({
+    address: LPcontractAddress,
+    abi: LendingPlatform.abi,
+    functionName: 'borrowApprove',
+    args: ['0xC57C81f0dE6164b6FC843A9171A220D2ECA4bE34', parseEther('0.003')],
+  });
 
-      try {
+  const approveHandler = async () => {
 
-        const transaction = await contract.methods.borrowApprove(borrower, convertToWei(0.00065)).send({
-          from: address
-        });
-        console.log('Transaction hash:', transaction)
-        
-      } catch (error) {
-        console.error('Error submitting transaction:', error);
-      }
+    await approveWrite()
+
+    if (!approveLoading) {
+      setIsModalOpen(false);
+      dispatch(uiActions.toggleConfetti(true));
+      console.log(approveData)
     }
-    
+  }
+
     useEffect(() => {}, [data]);
 
   return (
@@ -159,7 +163,7 @@ const JobsAndCompaniesModal = ({ isModalOpen, setIsModalOpen }) => {
                 <SaveOutlineButton isShare={true} />
               </div>
               <div className="">
-                <button onClick={fundHandler} className="max-w-[13.25rem]   mx-auto  bg-primary-button px-4 rounded font-semibold text-[0.875rem] h-[2.5rem] flex items-center gap-2 hover:bg-secondary-button hover:-translate-y-0.5  hover:shadow-button ease-in-out-expo transform transition-transform duration-150 cursor-pointer ">
+                <button onClick={() => approveHandler()} className="max-w-[13.25rem]   mx-auto  bg-primary-button px-4 rounded font-semibold text-[0.875rem] h-[2.5rem] flex items-center gap-2 hover:bg-secondary-button hover:-translate-y-0.5  hover:shadow-button ease-in-out-expo transform transition-transform duration-150 cursor-pointer ">
                   <span>Fund</span>
                   <Image
                     src={RightArrow}

@@ -31,7 +31,7 @@ const SeekersProgress = () => {
     setLoanAmount(value); // Directly use the array value
   };
 
-  const borrowRequest = useContractWrite({
+  const {data: borrowData, isSuccess: borrowSuccess, writeAsync: borrowWrite} = useContractWrite({
     address: LPcontractAddress,
     abi: LendingPlatform.abi,
     functionName: 'borrowRequest',
@@ -39,9 +39,11 @@ const SeekersProgress = () => {
   })
 
  const borrowRequestHandler = async () => {
+
    try {
-      await borrowRequest.write()
-      if (borrowRequest.isSuccess) {
+       await borrowWrite()
+      if (borrowSuccess) {
+        console.log(borrowData)
         router.push('/dashboard');
         dispatch(uiActions.toggleConfetti(true));
       }

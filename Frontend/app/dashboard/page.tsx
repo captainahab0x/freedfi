@@ -6,10 +6,15 @@ import FooterSection from '@/components/footer-section';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import useWindowSize from 'react-use/lib/useWindowSize';
+import { useRouter } from 'next/navigation';
 
 import Confetti from 'react-confetti';
+import { useAccount } from 'wagmi';
 
 export default function Page() {
+
+  const { isConnected } = useAccount()
+  const router = useRouter()
   const { isConfetti } = useSelector((state) => state.ui);
   const [showConfetti, setShowConfetti] = useState(false);
   const { width, height } = useWindowSize();
@@ -22,6 +27,12 @@ export default function Page() {
       return () => clearTimeout(timer);
     }
   }, [isConfetti]);
+
+  useEffect(() => {
+    if (!isConnected) {
+      router.push('/auth')
+    }
+  }, [])
 
   return (
     <div className="">
