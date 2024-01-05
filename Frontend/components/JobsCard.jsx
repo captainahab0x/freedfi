@@ -1,8 +1,8 @@
-import React from 'react';
-import Image from 'next/image';
-import SaveOutlineButton from '@/components/SaveOutlineButton';
-import { useDispatch } from 'react-redux';
-import { postsActions } from '@/store/posts-slice';
+import React from 'react'
+import Image from 'next/image'
+import SaveOutlineButton from '@/components/SaveOutlineButton'
+import { useDispatch } from 'react-redux'
+import { postsActions } from '@/store/posts-slice'
 
 const JobsCard = ({
   role,
@@ -15,17 +15,18 @@ const JobsCard = ({
   wholeCard,
   setIsModalOpen,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const handelClick = () => {
-    setIsModalOpen(true);
-    dispatch(postsActions.setSelectedCard(wholeCard));
-  };
+    setIsModalOpen(true)
+    dispatch(postsActions.setSelectedCard(wholeCard))
+  }
 
   return (
     <div
       onClick={() => handelClick()}
-      className="w-full  bg-white p-[0.9375rem] rounded border border-gray-border hover:shadow-card text-primary-text cursor-pointer group overflow-hidden ">
+      className="w-full  bg-white p-[0.9375rem] rounded border border-gray-border hover:shadow-card text-primary-text cursor-pointer group overflow-hidden "
+    >
       {/* Logo and applicants */}
       <div className="flex justify-between flex-col flex-grow-1 h-full">
         <div className="h-full">
@@ -61,7 +62,7 @@ const JobsCard = ({
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default JobsCard;
+export default JobsCard

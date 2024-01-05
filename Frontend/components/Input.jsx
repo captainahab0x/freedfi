@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const Input = ({
   label,
@@ -17,7 +17,8 @@ const Input = ({
       {remove && (
         <span
           className="absolute right-0 top-0 text-text-red cursor-pointer"
-          onClick={() => removeFunc(id)}>
+          onClick={() => removeFunc(id)}
+        >
           - remove
         </span>
       )}
@@ -30,7 +31,7 @@ const Input = ({
         className="w-full text-[0.9375rem] transition-field ease-in-out-expo duration-[0.25s] outline-none border tracking-[-0.005em] bg-white h-11 rounded py-[0.1rem] px-[0.875rem] mb-[0.8125rem] text-primary-text border-[#d7d7d7] focus:shadow-field focus:border-black"
       />
     </div>
-  );
-};
+  )
+}
 
-export default Input;
+export default Input

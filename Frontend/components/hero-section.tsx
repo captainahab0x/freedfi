@@ -1,27 +1,26 @@
-'use client';
-import { Poller_One } from 'next/font/google';
-import { JSX, SVGProps } from 'react';
-import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+'use client'
+import { Poller_One } from 'next/font/google'
+import { JSX, SVGProps } from 'react'
+import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
 import { useAccount } from 'wagmi'
 
 const poller_one = Poller_One({
   weight: ['400'],
   subsets: ['latin'],
-});
+})
 
 export default function HeroSection() {
-  const router = useRouter();
+  const router = useRouter()
   const { isConnected } = useAccount()
 
   const heroAction = async () => {
     if (isConnected) {
-      router.push('/dashboard');
+      router.push('/dashboard')
     } else {
-      router.push('/auth');
+      router.push('/auth')
     }
-    
-  };
+  }
 
   return (
     <div className="bg-white overflow-hidden pt-[180px] pb-[250px] flex flex-col items-center justify-center text-center px-4 relative">
@@ -31,12 +30,14 @@ export default function HeroSection() {
 
       <div
         className="absolute  animate-zoom-in-out"
-        style={{ transform: 'translate(-50%, -50%)' }}>
+        style={{ transform: 'translate(-50%, -50%)' }}
+      >
         <Star />
       </div>
 
       <h1
-        className={`text-3xl font-bold mb-4 leading-snug ${poller_one.className}`}>
+        className={`text-3xl font-bold mb-4 leading-snug ${poller_one.className}`}
+      >
         FreedFi
       </h1>
       <h1 className="text-6xl font-bold mb-4 leading-snug">
@@ -54,18 +55,19 @@ export default function HeroSection() {
       </p>
       <Button
         className=" text-[#0e0e0e] rounded-md  z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer"
-        onClick={() => heroAction()}>
+        onClick={() => heroAction()}
+      >
         Get Started
       </Button>
       <div className="absolute bottom-0 translate-y-[50%] right-[-10%]">
         <EllipsebottomRight />
       </div>
     </div>
-  );
+  )
 }
 
 function EllipseTopLeft(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
   return (
     <svg
@@ -73,7 +75,8 @@ function EllipseTopLeft(
       height="515"
       viewBox="0 0 480 515"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g filter="url(#filter0_f_33_1319)">
         <circle
           cx="337.286"
@@ -92,7 +95,8 @@ function EllipseTopLeft(
           width="890.678"
           height="890.678"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB">
+          color-interpolation-filters="sRGB"
+        >
           <feFlood flood-opacity="0" result="BackgroundImageFix" />
           <feBlend
             mode="normal"
@@ -111,17 +115,18 @@ function EllipseTopLeft(
           cy="0"
           r="1"
           gradientUnits="userSpaceOnUse"
-          gradientTransform="translate(337.286 337.286) rotate(90) scale(337.286)">
+          gradientTransform="translate(337.286 337.286) rotate(90) scale(337.286)"
+        >
           <stop stop-color="#AF6DEA" />
           <stop offset="1" stop-color="#AF6DEA" stop-opacity="0" />
         </radialGradient>
       </defs>
     </svg>
-  );
+  )
 }
 
 function EllipsebottomRight(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
   return (
     <svg
@@ -129,7 +134,8 @@ function EllipsebottomRight(
       height="982"
       viewBox="0 0 637 982"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <g filter="url(#filter0_f_33_1412)">
         <circle
           cx="382.515"
@@ -148,7 +154,8 @@ function EllipsebottomRight(
           width="981.135"
           height="981.135"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB">
+          color-interpolation-filters="sRGB"
+        >
           <feFlood flood-opacity="0" result="BackgroundImageFix" />
           <feBlend
             mode="normal"
@@ -167,13 +174,14 @@ function EllipsebottomRight(
           cy="0"
           r="1"
           gradientUnits="userSpaceOnUse"
-          gradientTransform="translate(382.515 382.515) rotate(90) scale(382.515)">
+          gradientTransform="translate(382.515 382.515) rotate(90) scale(382.515)"
+        >
           <stop stop-color="#AF6DEA" />
           <stop offset="1" stop-color="#AF6DEA" stop-opacity="0" />
         </radialGradient>
       </defs>
     </svg>
-  );
+  )
 }
 
 function Star(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
@@ -183,7 +191,8 @@ function Star(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
       height="1061"
       viewBox="0 0 1007 1061"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M845.69 367.734C899.651 291.19 927.838 232.963 925.797 202.249C923.757 171.535 891.606 170.085 834.423 198.127L827.014 207.212C882.856 179.827 914.253 181.243 916.246 211.237C918.238 241.231 890.713 298.093 838.016 372.843L845.69 367.734Z"
         fill="url(#paint0_linear_33_1360)"
@@ -207,7 +216,8 @@ function Star(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
           y1="185.002"
           x2="783.766"
           y2="315.327"
-          gradientUnits="userSpaceOnUse">
+          gradientUnits="userSpaceOnUse"
+        >
           <stop />
           <stop offset="1" stop-color="white" stop-opacity="0" />
         </linearGradient>
@@ -217,7 +227,8 @@ function Star(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
           y1="748.342"
           x2="228.775"
           y2="612.098"
-          gradientUnits="userSpaceOnUse">
+          gradientUnits="userSpaceOnUse"
+        >
           <stop />
           <stop offset="1" stop-color="white" stop-opacity="0" />
         </linearGradient>
@@ -227,7 +238,8 @@ function Star(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
           y1="185.002"
           x2="217.761"
           y2="321.446"
-          gradientUnits="userSpaceOnUse">
+          gradientUnits="userSpaceOnUse"
+        >
           <stop />
           <stop offset="1" stop-color="white" stop-opacity="0" />
         </linearGradient>
@@ -237,11 +249,12 @@ function Star(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
           y1="748.342"
           x2="782.542"
           y2="631.067"
-          gradientUnits="userSpaceOnUse">
+          gradientUnits="userSpaceOnUse"
+        >
           <stop />
           <stop offset="1" stop-color="white" stop-opacity="0" />
         </linearGradient>
       </defs>
     </svg>
-  );
+  )
 }

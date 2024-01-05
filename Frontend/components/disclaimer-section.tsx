@@ -1,14 +1,14 @@
-'use client';
+'use client'
 
-import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button'
+import { useRouter } from 'next/navigation'
 
 export default function DisclaimerSection() {
-  const router = useRouter();
+  const router = useRouter()
 
   const disclaimerAction = () => {
-    router.push('/auth');
-  };
+    router.push('/auth')
+  }
 
   return (
     <div className=" pt-16 translate-y-[-10%]">
@@ -23,11 +23,12 @@ export default function DisclaimerSection() {
         <div className="flex justify-center mt-12">
           <Button
             className="text-[#0e0e0e] rounded-md  z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer"
-            onClick={() => disclaimerAction()}>
+            onClick={() => disclaimerAction()}
+          >
             Get Started
           </Button>
         </div>
       </div>
     </div>
-  );
+  )
 }

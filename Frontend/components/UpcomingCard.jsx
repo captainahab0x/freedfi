@@ -1,5 +1,5 @@
-import Image from 'next/image';
-import React from 'react';
+import Image from 'next/image'
+import React from 'react'
 
 const UpcomingCard = ({ isImage, imageUrl, title }) => {
   return (
@@ -23,7 +23,7 @@ const UpcomingCard = ({ isImage, imageUrl, title }) => {
         </p>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default UpcomingCard;
+export default UpcomingCard

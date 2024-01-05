@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const SignUpButton = ({ isAllValid, label, handelSubmit }) => {
   return (
@@ -10,10 +10,11 @@ const SignUpButton = ({ isAllValid, label, handelSubmit }) => {
         isAllValid
           ? 'bg-[#C9F270] text-[#0e0e0e] hover:bg-[#DAF996] hover:-translate-y-0.5  hover:shadow-button ease-in-out-expo transform transition-transform duration-150 cursor-pointer'
           : 'bg-[#fafafa] text-[#dadada] cursor-default'
-      }`}>
+      }`}
+    >
       {label}
     </button>
-  );
-};
+  )
+}
 
-export default SignUpButton;
+export default SignUpButton

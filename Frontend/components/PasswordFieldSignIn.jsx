@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
-import Image from 'next/image';
-import ErrorIcon from '@/assets/exclamatory.svg';
-import PasswordVisible from '@/assets/password-visible.svg';
-import PasswordInvisible from '@/assets/password-invisible.svg';
+import React, { useEffect } from 'react'
+import { useState } from 'react'
+import Image from 'next/image'
+import ErrorIcon from '@/assets/exclamatory.svg'
+import PasswordVisible from '@/assets/password-visible.svg'
+import PasswordInvisible from '@/assets/password-invisible.svg'
 
 const PasswordFieldSignIn = ({
   label,
@@ -13,30 +13,31 @@ const PasswordFieldSignIn = ({
   isEmpty,
   setIsEmpty,
 }) => {
-  const [isFirstTime, setIsFirstTime] = useState(true);
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isFirstTime, setIsFirstTime] = useState(true)
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
   const handleInput = (e) => {
-    setInputValue(e.target.value);
+    setInputValue(e.target.value)
     isFirstTime
       ? setIsFirstTime(false)
       : e.target.value === ''
-      ? setIsEmpty(true)
-      : setIsEmpty(false);
-  };
+        ? setIsEmpty(true)
+        : setIsEmpty(false)
+  }
 
   const checkIsEmpty = () => {
     if (inputValue === '') {
-      setIsFirstTime(false);
-      setIsEmpty(true);
+      setIsFirstTime(false)
+      setIsEmpty(true)
     }
-  };
+  }
 
   return (
     <div>
       <label
         htmlFor="email"
-        className="text-primary-text text-[0.875rem] leading-[150%] font-semibold inline-block mb-[0.375rem]">
+        className="text-primary-text text-[0.875rem] leading-[150%] font-semibold inline-block mb-[0.375rem]"
+      >
         {label}
       </label>
       <div className="relative">
@@ -55,7 +56,8 @@ const PasswordFieldSignIn = ({
 
         <div
           onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-          className="absolute right-3 top-3">
+          className="absolute right-3 top-3"
+        >
           {isPasswordVisible ? (
             <Image
               src={PasswordVisible}
@@ -88,7 +90,7 @@ const PasswordFieldSignIn = ({
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PasswordFieldSignIn;
+export default PasswordFieldSignIn

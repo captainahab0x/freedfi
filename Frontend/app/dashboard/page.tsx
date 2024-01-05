@@ -1,32 +1,31 @@
-'use client';
+'use client'
 
-import DashboardSection from '@/components/dashboard-section';
-import HeaderSection from '@/components/header-section';
-import FooterSection from '@/components/footer-section';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import useWindowSize from 'react-use/lib/useWindowSize';
-import { useRouter } from 'next/navigation';
+import DashboardSection from '@/components/dashboard-section'
+import HeaderSection from '@/components/header-section'
+import FooterSection from '@/components/footer-section'
+import { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import useWindowSize from 'react-use/lib/useWindowSize'
+import { useRouter } from 'next/navigation'
 
-import Confetti from 'react-confetti';
-import { useAccount } from 'wagmi';
+import Confetti from 'react-confetti'
+import { useAccount } from 'wagmi'
 
 export default function Page() {
-
   const { isConnected } = useAccount()
   const router = useRouter()
-  const { isConfetti } = useSelector((state) => state.ui);
-  const [showConfetti, setShowConfetti] = useState(false);
-  const { width, height } = useWindowSize();
+  const { isConfetti } = useSelector((state) => state.ui)
+  const [showConfetti, setShowConfetti] = useState(false)
+  const { width, height } = useWindowSize()
 
   useEffect(() => {
     if (isConfetti) {
-      setShowConfetti(true);
+      setShowConfetti(true)
 
-      const timer = setTimeout(() => setShowConfetti(false), 5000);
-      return () => clearTimeout(timer);
+      const timer = setTimeout(() => setShowConfetti(false), 5000)
+      return () => clearTimeout(timer)
     }
-  }, [isConfetti]);
+  }, [isConfetti])
 
   useEffect(() => {
     if (!isConnected) {
@@ -45,5 +44,5 @@ export default function Page() {
       </div>
       <FooterSection />
     </div>
-  );
+  )
 }

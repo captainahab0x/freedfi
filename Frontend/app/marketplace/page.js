@@ -1,16 +1,16 @@
-'use client';
+'use client'
 
-import React from 'react';
-import CanalLogo from '@/assets/CanalLogo.png';
-import DegreedLogo from '@/assets/degreedLogo.png';
-import DiscordLogo from '@/assets/DiscordLogo.jpeg';
-import ListLogo from '@/assets/ListLogo.svg';
-import ClockLogo from '@/assets/ClockLogo.svg';
-import BookmarkLogo from '@/assets/BookmarkLogo.svg';
-import BlackTick from '@/assets/BlackTick.svg';
-import JobsCard from '@/components/JobsCard';
-import JobsPage from '@/components/JobsPage';
-import FooterSection from '@/components/footer-section';
+import React from 'react'
+import CanalLogo from '@/assets/CanalLogo.png'
+import DegreedLogo from '@/assets/degreedLogo.png'
+import DiscordLogo from '@/assets/DiscordLogo.jpeg'
+import ListLogo from '@/assets/ListLogo.svg'
+import ClockLogo from '@/assets/ClockLogo.svg'
+import BookmarkLogo from '@/assets/BookmarkLogo.svg'
+import BlackTick from '@/assets/BlackTick.svg'
+import JobsCard from '@/components/JobsCard'
+import JobsPage from '@/components/JobsPage'
+import FooterSection from '@/components/footer-section'
 
 const JobsFilter = [
   {
@@ -37,7 +37,7 @@ const JobsFilter = [
     id: 5,
     name: 'Ai/Ml',
   },
-];
+]
 
 const JobsList = [
   {
@@ -139,7 +139,7 @@ const JobsList = [
     no_of_applicants: 50,
     posted_on: '2023-06-20T04:05:25.008Z',
   },
-];
+]
 
 const Jobs = () => {
   return (
@@ -153,7 +153,7 @@ const Jobs = () => {
       />
       <FooterSection />
     </div>
-  );
-};
+  )
+}
 
-export default Jobs;
+export default Jobs

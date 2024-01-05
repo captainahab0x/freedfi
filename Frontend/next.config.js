@@ -17,6 +17,6 @@ const nextConfig = {
       'pixlok.com',
     ],
   },
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

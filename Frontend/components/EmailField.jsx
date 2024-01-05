@@ -1,7 +1,7 @@
-import React from 'react';
-import { useState } from 'react';
-import Image from 'next/image';
-import ErrorIcon from '../assets/exclamatory.svg';
+import React from 'react'
+import { useState } from 'react'
+import Image from 'next/image'
+import ErrorIcon from '../assets/exclamatory.svg'
 
 const EmailField = ({
   label,
@@ -12,28 +12,28 @@ const EmailField = ({
   EmailError,
   setEmailError,
 }) => {
-  const [isFirstTime, setIsFirstTime] = useState(true);
+  const [isFirstTime, setIsFirstTime] = useState(true)
 
   const isValidEmail = (email) => {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  };
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
+  }
 
   const handleInput = (e) => {
-    setEmail(e.target.value);
+    setEmail(e.target.value)
     isFirstTime
       ? setIsFirstTime(false)
       : isValidEmail(e.target.value) === false
-      ? setEmailError(true)
-      : setEmailError(false);
-  };
+        ? setEmailError(true)
+        : setEmailError(false)
+  }
 
   const checkisValid = () => {
     if (isValidEmail(Email) === false) {
-      setIsFirstTime(false);
-      setEmailError(true);
+      setIsFirstTime(false)
+      setEmailError(true)
     }
-  };
+  }
 
   return (
     <div>
@@ -69,7 +69,7 @@ const EmailField = ({
         </p>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default EmailField;
+export default EmailField

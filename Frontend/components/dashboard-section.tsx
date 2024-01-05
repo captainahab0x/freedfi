@@ -1,27 +1,27 @@
-'use client';
+'use client'
 
-import { useAccount, useContractWrite, useContractRead } from 'wagmi';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { Slider } from '@/components/ui/slider';
-import { JSX, SVGProps, useEffect, useState } from 'react';
-import { CardContent, Card } from '@/components/ui/card';
-import { useRouter } from 'next/navigation';
-import { 
-  convertToWei, 
-  getContractInstance, 
+import { useAccount, useContractWrite, useContractRead } from 'wagmi'
+import Image from 'next/image'
+import { Button } from '@/components/ui/button'
+import { Slider } from '@/components/ui/slider'
+import { JSX, SVGProps, useEffect, useState } from 'react'
+import { CardContent, Card } from '@/components/ui/card'
+import { useRouter } from 'next/navigation'
+import {
+  convertToWei,
+  getContractInstance,
   getCurrentWalletConnected,
   LPcontractAddress,
-  PCcontractAddress
- } from '@/lib/utils';
-import { parseGwei, parseEther, parseUnits } from 'viem';
+  PCcontractAddress,
+} from '@/lib/utils'
+import { parseGwei, parseEther, parseUnits } from 'viem'
 import PoolController from '../../contracts/out/PoolController.sol/PoolController.json'
 import LendingPlatform from '../../contracts/out/GetALoan.sol/LendingPlatform.json'
-import toast, {Toaster} from 'react-hot-toast';
-import CrossLogoWhite from '@/assets/crossLogoWhite.svg';
+import toast, { Toaster } from 'react-hot-toast'
+import CrossLogoWhite from '@/assets/crossLogoWhite.svg'
 
 export default function DashboardSection() {
-  const router = useRouter();
+  const router = useRouter()
   const { address } = useAccount()
 
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -31,35 +31,38 @@ export default function DashboardSection() {
   const [investAmount, setInvestAmount] = useState('')
   const [investedAmount, setInvestedAmount] = useState(0)
 
-   const {data: depositData, status: depositStatus, isLoading: depositLoading, isSuccess: depositSuccess, writeAsync: depositWrite} = useContractWrite({
+  const {
+    data: depositData,
+    status: depositStatus,
+    isLoading: depositLoading,
+    isSuccess: depositSuccess,
+    writeAsync: depositWrite,
+  } = useContractWrite({
     address: PCcontractAddress,
     abi: PoolController.abi,
     functionName: 'deposit',
     value: parseEther(investAmount),
   })
 
-
-   const investHandler = async () => {
-    
+  const investHandler = async () => {
     try {
       await depositWrite()
-  
+
       if (!depositLoading) {
         setInvestShowModal(false)
         toast('Successfully Deposited!')
         console.log(depositData)
       }
     } catch (error) {
-        setShowModal(false)
-        console.log('Could not invest: ', error)
+      setShowModal(false)
+      console.log('Could not invest: ', error)
     }
   }
 
   const repayHandler = async () => {
-    
     try {
       await repayWrite()
-  
+
       if (repaySuccess) {
         setShowModal(false)
         console.log(repayData)
@@ -68,52 +71,65 @@ export default function DashboardSection() {
         toast('Could not repay')
       }
     } catch (error) {
-        setShowModal(false)
-        console.log('Could not repay: ', error)
+      setShowModal(false)
+      console.log('Could not repay: ', error)
     }
   }
 
-  const requestLoan = async() => {
-    
-    router.push('/add-contract');
-  };
+  const requestLoan = async () => {
+    router.push('/add-contract')
+  }
 
-const { data: repayData, isLoading: repayLoading, isSuccess: repaySuccess, write: repayWrite } = useContractWrite({
+  const {
+    data: repayData,
+    isLoading: repayLoading,
+    isSuccess: repaySuccess,
+    write: repayWrite,
+  } = useContractWrite({
     address: LPcontractAddress,
     abi: LendingPlatform.abi,
     functionName: 'repay',
-    args: ['0x6ad513fDA973Bf1FC24c04256D686CbE05d714c7', '0xC57C81f0dE6164b6FC843A9171A220D2ECA4bE34'],
-    value: parseEther(amount), 
-  });
+    args: [
+      '0x6ad513fDA973Bf1FC24c04256D686CbE05d714c7',
+      '0xC57C81f0dE6164b6FC843A9171A220D2ECA4bE34',
+    ],
+    value: parseEther(amount),
+  })
 
- const { data: borrowedAmountData, isLoading: borrowedAmountLoading, isSuccess: borrowedAmountSuccess } = useContractRead({
+  const {
+    data: borrowedAmountData,
+    isLoading: borrowedAmountLoading,
+    isSuccess: borrowedAmountSuccess,
+  } = useContractRead({
     address: LPcontractAddress,
     abi: LendingPlatform.abi,
     functionName: 'getBorrowedAmount',
     args: ['0x6ad513fDA973Bf1FC24c04256D686CbE05d714c7'],
-  });
+  })
 
-   const { data: investedAmountData, isLoading: investedAmountLoading, isSuccess: investedAmountSuccess } = useContractRead({
+  const {
+    data: investedAmountData,
+    isLoading: investedAmountLoading,
+    isSuccess: investedAmountSuccess,
+  } = useContractRead({
     address: PCcontractAddress,
     abi: PoolController.abi,
     functionName: 'balances',
     args: [address],
-  });
+  })
 
   useEffect(() => {
     if (borrowedAmountSuccess) {
-      setFundedAmount(Number(borrowedAmountData));
+      setFundedAmount(Number(borrowedAmountData))
     }
-    
-  }, [borrowedAmountSuccess, borrowedAmountData]);
+  }, [borrowedAmountSuccess, borrowedAmountData])
 
-    useEffect(() => {
+  useEffect(() => {
     if (investedAmountData) {
       //  const investedAmountInEther = parseEther(investedAmountData.toString());
-      setInvestedAmount(Number(investedAmountData));
+      setInvestedAmount(Number(investedAmountData))
     }
-    
-  }, [investedAmountSuccess, investedAmountData, depositSuccess, depositData]);
+  }, [investedAmountSuccess, investedAmountData, depositSuccess, depositData])
 
   return (
     <div className="text-black bg-white pt-40 pb-16 px-8">
@@ -122,7 +138,8 @@ const { data: repayData, isLoading: repayLoading, isSuccess: repaySuccess, write
           <div className="flex flex-col space-y-8">
             <div className="h-[220px]">
               <h2 className="text-3xl font-semibold mb-4">Dashboard</h2>
-              <p className="text-gray-600">Manage your funds</p>{borrowedAmountData}
+              <p className="text-gray-600">Manage your funds</p>
+              {borrowedAmountData}
             </div>
             <div>
               <h2 className="text-3xl font-semibold mb-5">Trust credential</h2>
@@ -140,14 +157,13 @@ const { data: repayData, isLoading: repayLoading, isSuccess: repaySuccess, write
                     <MoneyIcon className="text-yellow-500" />
                     <h3 className="text-lg font-semibold">Funded</h3>
                     <p className="text-3xl font-bold">{fundedAmount}</p>
-                    <Button
-                      variant="outline"
-                      onClick={() => requestLoan()}>
+                    <Button variant="outline" onClick={() => requestLoan()}>
                       Request Now
                     </Button>
                     <Button
                       variant="outline"
-                      onClick={() => setShowModal(true)}>
+                      onClick={() => setShowModal(true)}
+                    >
                       {repayLoading ? 'loading ... ' : 'Repay Now'}
                     </Button>
                   </div>
@@ -158,9 +174,18 @@ const { data: repayData, isLoading: repayLoading, isSuccess: repaySuccess, write
                   <div className="flex flex-col items-center space-y-2 pt-4">
                     <RocketIcon className="text-red-500" />
                     <h3 className="text-lg font-semibold">Invested</h3>
-                    <p className="text-3xl font-bold">{(parseFloat(investedAmount.toString()) / 1e18).toFixed(4)}</p>
+                    <p className="text-3xl font-bold">
+                      {(parseFloat(investedAmount.toString()) / 1e18).toFixed(
+                        4,
+                      )}
+                    </p>
                     {/* <p className="text-3xl font-bold">{investedAmount / 1000000000000000000}</p> */}
-                    <Button onClick={() => setInvestShowModal(true)} variant="outline">Invest Now</Button> 
+                    <Button
+                      onClick={() => setInvestShowModal(true)}
+                      variant="outline"
+                    >
+                      Invest Now
+                    </Button>
                   </div>
                 </CardContent>
               </Card>
@@ -177,63 +202,66 @@ const { data: repayData, isLoading: repayLoading, isSuccess: repaySuccess, write
           </div>
         </div>
         {showModal && (
-        <div className="absolute top-0 left-0 max-w-screen max-h-screen w-full h-full bg-geay-200 backdrop-blur-sm flex items-center justify-center">
-          <div className="w-[520px] h-[300px] bg-gray-100 border rounded-lg p-10 border-[#AF6DEA]">
-            <h1 className="text-2xl text-center">
-              Loan Repayment
-            </h1>
-            
-            <div className="w-full flex justify-center">
-              <input 
-            className="w-[200px] mx-auto mt-10 border border-gray-300 p-2 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300" placeholder="Enter amount" onChange={e => setAmount(e.target.value)} />
-              <button
-                onClick={() => repayHandler()}
-                className="text-[#0e0e0e] rounded-md mt-10 mx-auto z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  py-2 hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer">
-                Repay 
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-              {investShowModal && (
-        <div className="absolute top-0 left-0 max-w-screen max-h-screen w-full h-full bg-geay-200 backdrop-blur-sm flex items-center justify-center">
-          
-          <div className="w-[520px] h-[300px] bg-gray-100 border rounded-lg p-10 border-[#AF6DEA]">
-            <h1 className="text-2xl text-center">
-              Invest
-            </h1>
-            <div className="relative">
-               <div
-                onClick={() => setInvestShowModal(false)}
-                className="p-[9px] bg-black/[15%] rounded-full absolute  top-[-50px]  right-[5px] cursor-pointer group hover:scale-[125%] hover:bg-black/10 transition-all duration-300">
-                <Image
-                  src={CrossLogoWhite}
-                  alt="Cross Logo"
-                  className={` w-[14px] h-[14px]`}
+          <div className="absolute top-0 left-0 max-w-screen max-h-screen w-full h-full bg-geay-200 backdrop-blur-sm flex items-center justify-center">
+            <div className="w-[520px] h-[300px] bg-gray-100 border rounded-lg p-10 border-[#AF6DEA]">
+              <h1 className="text-2xl text-center">Loan Repayment</h1>
+
+              <div className="w-full flex justify-center">
+                <input
+                  className="w-[200px] mx-auto mt-10 border border-gray-300 p-2 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
+                  placeholder="Enter amount"
+                  onChange={(e) => setAmount(e.target.value)}
                 />
-                </div>
-             </div>
-            <div className="w-full flex justify-center">
-              <input 
-            className="w-[200px] mx-auto mt-10 border border-gray-300 p-2 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300" placeholder="Enter amount" onChange={e => setInvestAmount(e.target.value)} />
-              <button
-                onClick={() => investHandler()}
-                className="text-[#0e0e0e] rounded-md mt-10 mx-auto z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  py-2 hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer">
-                {depositLoading ? 'loading ...' : 'Invest Now'}
-              </button>
+                <button
+                  onClick={() => repayHandler()}
+                  className="text-[#0e0e0e] rounded-md mt-10 mx-auto z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  py-2 hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer"
+                >
+                  Repay
+                </button>
+              </div>
             </div>
-             
           </div>
-        </div>
-      )}
-      <Toaster />
+        )}
+        {investShowModal && (
+          <div className="absolute top-0 left-0 max-w-screen max-h-screen w-full h-full bg-geay-200 backdrop-blur-sm flex items-center justify-center">
+            <div className="w-[520px] h-[300px] bg-gray-100 border rounded-lg p-10 border-[#AF6DEA]">
+              <h1 className="text-2xl text-center">Invest</h1>
+              <div className="relative">
+                <div
+                  onClick={() => setInvestShowModal(false)}
+                  className="p-[9px] bg-black/[15%] rounded-full absolute  top-[-50px]  right-[5px] cursor-pointer group hover:scale-[125%] hover:bg-black/10 transition-all duration-300"
+                >
+                  <Image
+                    src={CrossLogoWhite}
+                    alt="Cross Logo"
+                    className={` w-[14px] h-[14px]`}
+                  />
+                </div>
+              </div>
+              <div className="w-full flex justify-center">
+                <input
+                  className="w-[200px] mx-auto mt-10 border border-gray-300 p-2 rounded-md shadow-sm focus:outline-none focus:ring focus:border-blue-300"
+                  placeholder="Enter amount"
+                  onChange={(e) => setInvestAmount(e.target.value)}
+                />
+                <button
+                  onClick={() => investHandler()}
+                  className="text-[#0e0e0e] rounded-md mt-10 mx-auto z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  py-2 hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer"
+                >
+                  {depositLoading ? 'loading ...' : 'Invest Now'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+        <Toaster />
       </div>
     </div>
-  );
+  )
 }
 
 function CheckCircleIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
   return (
     <svg
@@ -246,15 +274,16 @@ function CheckCircleIcon(
       stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"
-      strokeLinejoin="round">
+      strokeLinejoin="round"
+    >
       <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
       <polyline points="22 4 12 14.01 9 11.01" />
     </svg>
-  );
+  )
 }
 
 function CurrencyIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
   return (
     <svg
@@ -267,18 +296,19 @@ function CurrencyIcon(
       stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"
-      strokeLinejoin="round">
+      strokeLinejoin="round"
+    >
       <circle cx="12" cy="12" r="8" />
       <line x1="3" x2="6" y1="3" y2="6" />
       <line x1="21" x2="18" y1="3" y2="6" />
       <line x1="3" x2="6" y1="21" y2="18" />
       <line x1="21" x2="18" y1="21" y2="18" />
     </svg>
-  );
+  )
 }
 
 function TrendingUpIcon(
-  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>
+  props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>,
 ) {
   return (
     <svg
@@ -291,11 +321,12 @@ function TrendingUpIcon(
       stroke="currentColor"
       strokeWidth="2"
       strokeLinecap="round"
-      strokeLinejoin="round">
+      strokeLinejoin="round"
+    >
       <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
       <polyline points="16 7 22 7 22 13" />
     </svg>
-  );
+  )
 }
 
 function MoneyIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
@@ -306,14 +337,16 @@ function MoneyIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
       height="45"
       viewBox="0 0 45 45"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path d="M0.5 44.08H44.5V0.0799997H0.5V44.08Z" fill="url(#pattern0)" />
       <defs>
         <pattern
           id="pattern0"
           patternContentUnits="objectBoundingBox"
           width="1"
-          height="1">
+          height="1"
+        >
           <use xlinkHref="#image0_31_251" transform="scale(0.00625)" />
         </pattern>
         <image
@@ -324,7 +357,7 @@ function MoneyIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
         />
       </defs>
     </svg>
-  );
+  )
 }
 
 function RocketIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
@@ -335,14 +368,16 @@ function RocketIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
       height="45"
       viewBox="0 0 44 45"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path d="M0 44.08H44V0.0799997H0V44.08Z" fill="url(#pattern1)" />
       <defs>
         <pattern
           id="pattern1"
           patternContentUnits="objectBoundingBox"
           width="1"
-          height="1">
+          height="1"
+        >
           <use xlinkHref="#image0_31_247" transform="scale(0.00625)" />
         </pattern>
         <image
@@ -353,5 +388,5 @@ function RocketIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
         />
       </defs>
     </svg>
-  );
+  )
 }
