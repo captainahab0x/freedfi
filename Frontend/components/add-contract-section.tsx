@@ -3,13 +3,11 @@ import React, { useState } from 'react'
 import { Slider } from '@/components/ui/slider'
 import { Poppins } from 'next/font/google'
 import { uiActions } from '@/store/ui-slice'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/navigation'
 import {
   LPcontractAddress,
-  convertToWei,
-  getContractInstance,
-  getCurrentWalletConnected,
+  convertToWei
 } from '@/lib/utils'
 import { useAccount, useContractWrite } from 'wagmi'
 import LendingPlatform from '../../contracts/out/GetALoan.sol/LendingPlatform.json'

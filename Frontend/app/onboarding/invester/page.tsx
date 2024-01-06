@@ -15,7 +15,10 @@ import InvesterProof from '../../../components/InvesterProof'
 import InvestorCommitment from '../../../components/InvestorCommitment'
 import { useRouter } from 'next/navigation'
 import { uiActions } from '@/store/ui-slice'
-import { getContractInstance, getCurrentWalletConnected } from '@/lib/utils'
+import { PCcontractAddress, getContractInstance, getCurrentWalletConnected } from '@/lib/utils'
+import { useContractWrite } from 'wagmi'
+import { parseEther } from 'viem'
+import PoolController from '../../../../contracts/out/PoolController.sol/PoolController.json'
 
 const Onboarding = () => {
   const dispatch = useDispatch()
@@ -24,36 +27,40 @@ const Onboarding = () => {
   const router = useRouter()
   const targetRef = useRef(null)
   const [isMobile, setIsMobile] = useState(false)
-  const [investorAmount, setInvestorAmount] = useState([0.0005]) // State as an array
+  const [investorAmount, setInvestorAmount] = useState(['0.005']) // State as an array
   const [showModal, setShowModal] = useState(false)
 
-  const handleSubmit = async () => {
-    const contract = getContractInstance()
-    const { address } = await getCurrentWalletConnected()
+   const {
+    data: depositData,
+    status: depositStatus,
+    isLoading: depositLoading,
+    isSuccess: depositSuccess,
+    writeAsync: depositWrite,
+  } = useContractWrite({
+    address: PCcontractAddress,
+    abi: PoolController.abi,
+    functionName: 'deposit',
+    value: parseEther(investorAmount[0]),
+  })
 
+  const investHandler = async () => {
     try {
-      const transaction = await contract.methods.addInvester(address).send({
-        from: address,
-      })
+      await depositWrite()
 
-      console.log('Transaction hash:', transaction)
-
-      // router.push('/dashboard');
-
-      dispatch(uiActions.toggleConfetti(true))
+      if (!depositLoading) {
+        dispatch(uiActions.toggleConfetti(true))
+        toast('Successfully Deposited!')
+        router.push('/dashboard')
+        console.log(depositData)
+      }
     } catch (error) {
-      console.error('Error submitting transaction:', error)
+      setShowModal(false)
+      console.log('Could not invest: ', error)
     }
-    dispatch(uiActions.toggleConfetti(true))
-    router.push('/dashboard')
   }
 
   const handleSliderChange = (value) => {
-    if (value < 0.0005) {
-      setInvestorAmount([0.0005]) // Directly use the array value
-    } else {
-      setInvestorAmount(value)
-    }
+    setInvestorAmount(value)
   }
 
   useEffect(() => {
@@ -229,7 +236,7 @@ const Onboarding = () => {
             </h1>
             <div className="w-full flex justify-center">
               <button
-                onClick={handleSubmit}
+                onClick={investHandler}
                 className="text-[#0e0e0e] rounded-md mt-10 mx-auto z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  py-2 hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer"
               >
                 Confirm Funding

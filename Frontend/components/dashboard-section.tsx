@@ -8,13 +8,10 @@ import { JSX, SVGProps, useEffect, useState } from 'react'
 import { CardContent, Card } from '@/components/ui/card'
 import { useRouter } from 'next/navigation'
 import {
-  convertToWei,
-  getContractInstance,
-  getCurrentWalletConnected,
   LPcontractAddress,
   PCcontractAddress,
 } from '@/lib/utils'
-import { parseGwei, parseEther, parseUnits } from 'viem'
+import { parseEther } from 'viem'
 import PoolController from '../../contracts/out/PoolController.sol/PoolController.json'
 import LendingPlatform from '../../contracts/out/GetALoan.sol/LendingPlatform.json'
 import toast, { Toaster } from 'react-hot-toast'
@@ -126,7 +123,6 @@ export default function DashboardSection() {
 
   useEffect(() => {
     if (investedAmountData) {
-      //  const investedAmountInEther = parseEther(investedAmountData.toString());
       setInvestedAmount(Number(investedAmountData))
     }
   }, [investedAmountSuccess, investedAmountData, depositSuccess, depositData])
@@ -139,7 +135,6 @@ export default function DashboardSection() {
             <div className="h-[220px]">
               <h2 className="text-3xl font-semibold mb-4">Dashboard</h2>
               <p className="text-gray-600">Manage your funds</p>
-              {borrowedAmountData}
             </div>
             <div>
               <h2 className="text-3xl font-semibold mb-5">Trust credential</h2>

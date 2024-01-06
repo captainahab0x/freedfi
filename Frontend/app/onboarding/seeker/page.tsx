@@ -4,9 +4,8 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useRef } from 'react'
 import {
-  getContractInstance,
-  getCurrentWalletConnected,
   convertToWei,
+  LPcontractAddress,
 } from '@/lib/utils'
 import BackLogo from '@/assets/LeftGrayArrow.svg'
 import Image from 'next/image'
@@ -20,10 +19,13 @@ import SeekersProgress from '../../../components/SeekersProgress'
 import SeekersAdditionalProof from '../../../components/SeekersAdditionalProof'
 import { useRouter } from 'next/navigation'
 import { uiActions } from '@/store/ui-slice'
+import { useAccount, useContractWrite } from 'wagmi'
+import LendingPlatform from '../../../../contracts/out/GetALoan.sol/LendingPlatform.json'
 
 const Onboarding: React.FC = () => {
   const dispatch = useDispatch()
   const router = useRouter()
+  const { address } = useAccount()
 
   const [index, setIndex] = useState<number>(0)
   const [direction, setDirection] = useState<number>(1)
@@ -33,24 +35,28 @@ const Onboarding: React.FC = () => {
   const [loanAmount, setLoanAmount] = useState<number[]>([1]) // State as an array
   const [showModal, setShowModal] = useState<boolean>(false)
 
+    const {
+    data: borrowData,
+    isSuccess: borrowSuccess,
+    writeAsync: borrowWrite,
+  } = useContractWrite({
+    address: LPcontractAddress,
+    abi: LendingPlatform.abi,
+    functionName: 'borrowRequest',
+    args: [address, convertToWei(loanAmount[0])]
+  })
+
   const handleSubmit = async () => {
-    const contract = getContractInstance()
-    const senderAddress = (await getCurrentWalletConnected()).address
-
     try {
-      const transaction = await contract.methods
-        .borrowRequest(senderAddress, convertToWei(loanAmount[0]))
-        .send({
-          from: senderAddress,
-        })
-
-      console.log('Transaction hash:', transaction.transactionHash)
-
-      router.push('/dashboard')
-
-      dispatch(uiActions.toggleConfetti(true))
+      await borrowWrite()
+      if (borrowSuccess) {
+        toast('Successfully requested for loan!')
+        router.push('/dashboard')
+        dispatch(uiActions.toggleConfetti(true))
+        console.log(borrowData)
+      }
     } catch (error) {
-      console.error('Error submitting transaction:', error)
+      console.log('Encountered error: ', error)
     }
   }
 
