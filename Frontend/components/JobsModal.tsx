@@ -1,20 +1,24 @@
-import React from 'react';
-import Image from 'next/image';
-import CrossLogoWhite from '@/assets/crossLogoWhite.svg';
-import CanalLogo from '@/assets/CanalLogo.png';
-import DegreedLogo from '@/assets/degreedLogo.png';
-import DiscordLogo from '@/assets/DiscordLogo.jpeg';
-import ReactTimeago from 'react-timeago';
-import SaveOutlineButton from '@/components/SaveOutlineButton';
-import RightArrow from '@/assets/RightArrow.svg';
-import RecommendedCard from './RecommendedCard';
-import UpcomingSlide from './UpcomingSlide';
-import { useDispatch, useSelector } from 'react-redux';
-import { postsActions } from '@/store/posts-slice';
-import { useEffect } from 'react';
-import { convertToWei, getContractInstance, getCurrentWalletConnected } from '@/lib/utils';
-import { debug } from 'console';
-
+import React from 'react'
+import Image from 'next/image'
+import CrossLogoWhite from '@/assets/crossLogoWhite.svg'
+import DegreedLogo from '@/assets/degreedLogo.png'
+import ReactTimeago from 'react-timeago'
+import SaveOutlineButton from '@/components/SaveOutlineButton'
+import RightArrow from '@/assets/RightArrow.svg'
+import UpcomingSlide from './UpcomingSlide'
+import { useDispatch, useSelector } from 'react-redux'
+import { postsActions } from '@/store/posts-slice'
+import { useEffect } from 'react'
+import {
+  LPcontractAddress,
+  convertToWei,
+  getContractInstance,
+  getCurrentWalletConnected,
+} from '@/lib/utils'
+import LendingPlatform from '../../contracts/out/GetALoan.sol/LendingPlatform.json'
+import { useContractWrite, useAccount } from 'wagmi'
+import { parseEther, parseGwei } from 'viem'
+import { uiActions } from '@/store/ui-slice'
 
 const datadummy = {
   id: 1,
@@ -26,7 +30,7 @@ const datadummy = {
   logo: DegreedLogo,
   no_of_applicants: 12,
   posted_on: '2023-04-20T04:05:25.008Z',
-};
+}
 
 const upcomingEvents = [
   {
@@ -43,7 +47,7 @@ const upcomingEvents = [
     month: 'May',
     date: '20',
   },
-];
+]
 
 const upcomingWebinars = [
   {
@@ -60,58 +64,64 @@ const upcomingWebinars = [
     imageUrl:
       'https://jumpstart-static.s3.amazonaws.com/backend/organizations/organization/29-waf2mTZaYRYuEy5hdFQ.png',
   },
-];
+]
 
 const JobsAndCompaniesModal = ({ isModalOpen, setIsModalOpen }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
+  const { address } = useAccount()
 
-  const data = useSelector((state) => state.posts?.selectedCard);
+  const data = useSelector((state) => state.posts?.selectedCard)
 
   const { role, company, location, type, remote, logo, posted_on, domain } =
-    data || datadummy;
+    data || datadummy
 
-    
-    const handelClose = () => {
-      setIsModalOpen(false);
-      dispatch(postsActions.setSelectedCard(null));
-    };
+  const handelClose = () => {
+    setIsModalOpen(false)
+    dispatch(postsActions.setSelectedCard(null))
+  }
 
-    const fundHandler = async () => {
-      
-      const contract = getContractInstance();
-      const { address } = await getCurrentWalletConnected()
-      const borrower = '0x3dc00aad844393c110b61aed5849b7c82104e748'
+  const {
+    data: approveData,
+    isLoading: approveLoading,
+    isSuccess: approveSuccess,
+    writeAsync: approveWrite,
+  } = useContractWrite({
+    address: LPcontractAddress,
+    abi: LendingPlatform.abi,
+    functionName: 'borrowApprove',
+    args: ['0xC57C81f0dE6164b6FC843A9171A220D2ECA4bE34', parseEther('0.003')],
+  })
 
-      try {
+  const approveHandler = async () => {
+    await approveWrite()
 
-        const transaction = await contract.methods.borrowApprove(borrower, convertToWei(0.002)).send({
-          from: address,
-        });
-
-        console.log('Transaction hash:', transaction)
-        
-      } catch (error) {
-        console.error('Error submitting transaction:', error);
-      }
+    if (!approveLoading) {
+      setIsModalOpen(false)
+      dispatch(uiActions.toggleConfetti(true))
+      console.log(approveData)
     }
-    
-    useEffect(() => {}, [data]);
+  }
+
+  useEffect(() => {}, [data])
 
   return (
     <div
       className={`min-w-screen min-h-screen w-full h-full fixed top-0 left-0 bg-black/50  z-[200] flex items-center justify-center transform  sm:px-[6rem] ${
         isModalOpen ? ' scale-[100%] opacity-[100]' : ' scale-0 opacity-0'
-      }`}>
+      }`}
+    >
       <div
         className={`block sm:rounded-lg min-h-screen sm:min-h-fit bg-white sm:max-w-[64rem] w-full transform duration-[300ms]   ${
           isModalOpen ? ' scale-[100%] opacity-[100]' : ' scale-0 opacity-0'
-        } overflow-x-hidden`}>
+        } overflow-x-hidden`}
+      >
         <div className="block sm:rounded-lg  bg-[#fefefe] sm:max-w-[64rem] w-full  max-h-screen overflow-y-auto relative">
           <div className="h-full w-full bg-white sticky top-0 border border-light-gray p-[0.9375rem] mb-[0.9375rem] rounded-md z-[10]">
             {/* CloseLogo */}
             <div
               onClick={() => handelClose()}
-              className="p-[9px] bg-black/[15%] rounded-full absolute  top-[14px]  right-[10px] cursor-pointer group hover:scale-[125%] hover:bg-black/10 transition-all duration-300">
+              className="p-[9px] bg-black/[15%] rounded-full absolute  top-[14px]  right-[10px] cursor-pointer group hover:scale-[125%] hover:bg-black/10 transition-all duration-300"
+            >
               <Image
                 src={CrossLogoWhite}
                 alt="Cross Logo"
@@ -160,7 +170,10 @@ const JobsAndCompaniesModal = ({ isModalOpen, setIsModalOpen }) => {
                 <SaveOutlineButton isShare={true} />
               </div>
               <div className="">
-                <button onClick={fundHandler} className="max-w-[13.25rem]   mx-auto  bg-primary-button px-4 rounded font-semibold text-[0.875rem] h-[2.5rem] flex items-center gap-2 hover:bg-secondary-button hover:-translate-y-0.5  hover:shadow-button ease-in-out-expo transform transition-transform duration-150 cursor-pointer ">
+                <button
+                  onClick={() => approveHandler()}
+                  className="max-w-[13.25rem]   mx-auto  bg-primary-button px-4 rounded font-semibold text-[0.875rem] h-[2.5rem] flex items-center gap-2 hover:bg-secondary-button hover:-translate-y-0.5  hover:shadow-button ease-in-out-expo transform transition-transform duration-150 cursor-pointer "
+                >
                   <span>Fund</span>
                   <Image
                     src={RightArrow}
@@ -286,7 +299,7 @@ const JobsAndCompaniesModal = ({ isModalOpen, setIsModalOpen }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default JobsAndCompaniesModal;
+export default JobsAndCompaniesModal

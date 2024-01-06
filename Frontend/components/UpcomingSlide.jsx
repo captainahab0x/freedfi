@@ -1,5 +1,5 @@
-import React from 'react';
-import UpcomingCard from './UpcomingCard';
+import React from 'react'
+import UpcomingCard from './UpcomingCard'
 
 const UpcomingSlide = ({ title, cardList }) => {
   return (
@@ -25,7 +25,7 @@ const UpcomingSlide = ({ title, cardList }) => {
         See all
       </p>
     </div>
-  );
-};
+  )
+}
 
-export default UpcomingSlide;
+export default UpcomingSlide

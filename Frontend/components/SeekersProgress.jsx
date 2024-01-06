@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-import { Slider } from '@/components/ui/slider';
-import { Poppins } from 'next/font/google';
+import React, { useState } from 'react'
+import { Slider } from '@/components/ui/slider'
+import { Poppins } from 'next/font/google'
 
 const poppins = Poppins({
   weight: '400',
   subsets: ['latin'],
-});
+})
 
 const SeekersProgress = ({ handleSliderChange, loanAmount }) => {
   return (
@@ -20,7 +20,8 @@ const SeekersProgress = ({ handleSliderChange, loanAmount }) => {
         Your Skill Match Score
       </p>
       <p
-        className={`text-4xl ${poppins.className} bg-[#AF6DEA] text-center  text-white w-fit mx-auto`}>
+        className={`text-4xl ${poppins.className} bg-[#AF6DEA] text-center  text-white w-fit mx-auto`}
+      >
         100%
       </p>
       <div className="mt-6 max-w-lg mx-auto">
@@ -39,7 +40,7 @@ const SeekersProgress = ({ handleSliderChange, loanAmount }) => {
         {/* Access the first element of the array */}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SeekersProgress;
+export default SeekersProgress

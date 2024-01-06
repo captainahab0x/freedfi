@@ -1,40 +1,40 @@
-'use client';
+'use client'
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import GoogleLoginButton from './GoogleLoginButton';
-import EmailField from '@/components/EmailField';
-import SignUpButton from '@/components/SignUpButton';
-import PasswordFieldSignIn from '@/components/PasswordFieldSignIn';
-import { useRouter } from 'next/navigation';
+import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
+import GoogleLoginButton from './GoogleLoginButton'
+import EmailField from '@/components/EmailField'
+import SignUpButton from '@/components/SignUpButton'
+import PasswordFieldSignIn from '@/components/PasswordFieldSignIn'
+import { useRouter } from 'next/navigation'
 
 const SignUp = ({ setIsSignUp }) => {
-  const [Email, setEmail] = useState('');
-  const [EmailError, setEmailError] = useState(false);
-  const [Password, setPassword] = useState('');
-  const [PasswordError, setPasswordError] = useState(false);
+  const [Email, setEmail] = useState('')
+  const [EmailError, setEmailError] = useState(false)
+  const [Password, setPassword] = useState('')
+  const [PasswordError, setPasswordError] = useState(false)
 
-  const [isAllValid, setIsAllValid] = useState(false);
-  const [isFirstload, setIsFirstLoad] = useState(true);
-  const router = useRouter();
+  const [isAllValid, setIsAllValid] = useState(false)
+  const [isFirstload, setIsFirstLoad] = useState(true)
+  const router = useRouter()
 
   const checkAllValid = () => {
-    setIsAllValid(!EmailError && !PasswordError);
-  };
+    setIsAllValid(!EmailError && !PasswordError)
+  }
 
   const handelSubmit = () => {
     if (isAllValid) {
-      router.push('/onboarding');
+      router.push('/onboarding')
     }
-  };
+  }
 
   useEffect(() => {
     if (isFirstload) {
-      setIsFirstLoad(false);
-      return;
+      setIsFirstLoad(false)
+      return
     }
-    checkAllValid();
-  }, [EmailError, PasswordError, Email, Password]);
+    checkAllValid()
+  }, [EmailError, PasswordError, Email, Password])
 
   return (
     <div className="flex min-h-screen w-full h-full">
@@ -47,7 +47,8 @@ const SignUp = ({ setIsSignUp }) => {
             Need an FreedFi account?
             <span
               onClick={() => setIsSignUp(true)}
-              className="text-link ml-[2px] font-semibold leading-[130%] cursor-pointer">
+              className="text-link ml-[2px] font-semibold leading-[130%] cursor-pointer"
+            >
               Sign up
             </span>
           </p>
@@ -100,7 +101,7 @@ const SignUp = ({ setIsSignUp }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SignUp;
+export default SignUp

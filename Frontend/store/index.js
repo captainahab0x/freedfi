@@ -1,7 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit';
-import postsSlice from './posts-slice';
-import uiSlice from './ui-slice';
-import onboardingSlice from './onboarding-slice';
+import { configureStore } from '@reduxjs/toolkit'
+import postsSlice from './posts-slice'
+import uiSlice from './ui-slice'
+import onboardingSlice from './onboarding-slice'
 
 const store = configureStore({
   reducer: {
@@ -9,6 +9,6 @@ const store = configureStore({
     ui: uiSlice.reducer,
     onboarding: onboardingSlice.reducer,
   },
-});
+})
 
-export default store;
+export default store

@@ -2,5 +2,7 @@
   "bracketSpacing": true,
   "embeddedLanguageFormatting": "auto",
   "singleQuote": true,
-  "jsxBracketSameLine": true
+  "jsxBracketSameLine": true,
+  "tabWidth": 2,
+  "semi": false
 }

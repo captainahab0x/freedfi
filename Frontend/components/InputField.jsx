@@ -1,7 +1,7 @@
-import React from 'react';
-import { useState } from 'react';
-import Image from 'next/image';
-import ErrorIcon from '../assets/exclamatory.svg';
+import React from 'react'
+import { useState } from 'react'
+import Image from 'next/image'
+import ErrorIcon from '../assets/exclamatory.svg'
 
 const InputField = ({
   label,
@@ -15,23 +15,23 @@ const InputField = ({
   removeFunc,
   id,
 }) => {
-  const [isFirstTime, setIsFirstTime] = useState(true);
+  const [isFirstTime, setIsFirstTime] = useState(true)
 
   const handleInput = (e) => {
-    setInputValue(e.target.value);
+    setInputValue(e.target.value)
     isFirstTime
       ? setIsFirstTime(false)
       : e.target.value === ''
-      ? setIsEmpty(true)
-      : setIsEmpty(false);
-  };
+        ? setIsEmpty(true)
+        : setIsEmpty(false)
+  }
 
   const checkIsEmpty = () => {
     if (inputValue === '') {
-      setIsFirstTime(false);
-      setIsEmpty(true);
+      setIsFirstTime(false)
+      setIsEmpty(true)
     }
-  };
+  }
 
   return (
     <div>
@@ -70,7 +70,7 @@ const InputField = ({
         </p>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default InputField;
+export default InputField

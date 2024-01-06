@@ -1,33 +1,33 @@
-'use client';
+'use client'
 
-import { useRouter } from 'next/navigation';
-import { CardContent, Card } from '@/components/ui/card';
-import { SVGProps, useCallback } from 'react';
-import { uiActions } from '@/store/ui-slice';
-import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/navigation'
+import { CardContent, Card } from '@/components/ui/card'
+import { SVGProps, useCallback } from 'react'
+import { uiActions } from '@/store/ui-slice'
+import { useDispatch } from 'react-redux'
 
 export default function PurposeSection() {
-  const router = useRouter();
-  const dispatch = useDispatch();
+  const router = useRouter()
+  const dispatch = useDispatch()
 
   const handelClick = useCallback(
     (route: string) => {
-      router.push(route);
+      router.push(route)
     },
-    [router]
-  );
+    [router],
+  )
 
   const requestLoanAction = useCallback(() => {
-    dispatch(uiActions.toggleIsSeeker(true));
-    dispatch(uiActions.toggleIsInvester(false));
-    handelClick('/onboarding/seeker');
-  }, [dispatch, handelClick]);
+    dispatch(uiActions.toggleIsSeeker(true))
+    dispatch(uiActions.toggleIsInvester(false))
+    handelClick('/onboarding/seeker')
+  }, [dispatch, handelClick])
 
   const fundLoanAction = useCallback(() => {
-    dispatch(uiActions.toggleIsSeeker(false));
-    dispatch(uiActions.toggleIsInvester(true));
-    handelClick('/onboarding/invester');
-  }, [dispatch, handelClick]);
+    dispatch(uiActions.toggleIsSeeker(false))
+    dispatch(uiActions.toggleIsInvester(true))
+    handelClick('/onboarding/invester')
+  }, [dispatch, handelClick])
 
   return (
     <div className="bg-white pt-32 pb-5">
@@ -41,7 +41,8 @@ export default function PurposeSection() {
         <div className="flex justify-center space-x-8">
           <Card
             className="w-[350px] py-[50px] hover:cursor-pointer hover:scale-[102%] hover:border-[#AF6DEA] transition-all duration-200 ease-in-out hover:shadow-card"
-            onClick={requestLoanAction}>
+            onClick={requestLoanAction}
+          >
             <CardContent className="flex flex-col items-center p-6">
               <MoneyIcon className="h-12 w-12 mb-4" />
               <h3 className="text-xl font-semibold mb-2">I want a Loan</h3>
@@ -50,7 +51,8 @@ export default function PurposeSection() {
 
           <Card
             onClick={fundLoanAction}
-            className="w-[350px] py-[50px] hover:cursor-pointer hover:scale-[102%] hover:border-[#AF6DEA] transition-all duration-200 ease-in-out hover:shadow-card">
+            className="w-[350px] py-[50px] hover:cursor-pointer hover:scale-[102%] hover:border-[#AF6DEA] transition-all duration-200 ease-in-out hover:shadow-card"
+          >
             <CardContent className="flex flex-col items-center p-6">
               <RocketIcon className="h-12 w-12 mb-4" />
               <h3 className="text-xl font-semibold mb-2">
@@ -61,7 +63,7 @@ export default function PurposeSection() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 function MoneyIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
@@ -72,14 +74,16 @@ function MoneyIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
       height="45"
       viewBox="0 0 45 45"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path d="M0.5 44.08H44.5V0.0799997H0.5V44.08Z" fill="url(#pattern0)" />
       <defs>
         <pattern
           id="pattern0"
           patternContentUnits="objectBoundingBox"
           width="1"
-          height="1">
+          height="1"
+        >
           <use xlinkHref="#image0_31_251" transform="scale(0.00625)" />
         </pattern>
         <image
@@ -90,7 +94,7 @@ function MoneyIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
         />
       </defs>
     </svg>
-  );
+  )
 }
 
 function RocketIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
@@ -101,14 +105,16 @@ function RocketIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
       height="45"
       viewBox="0 0 44 45"
       fill="none"
-      xmlns="http://www.w3.org/2000/svg">
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path d="M0 44.08H44V0.0799997H0V44.08Z" fill="url(#pattern1)" />
       <defs>
         <pattern
           id="pattern1"
           patternContentUnits="objectBoundingBox"
           width="1"
-          height="1">
+          height="1"
+        >
           <use xlinkHref="#image0_31_247" transform="scale(0.00625)" />
         </pattern>
         <image
@@ -119,5 +125,5 @@ function RocketIcon(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
         />
       </defs>
     </svg>
-  );
+  )
 }

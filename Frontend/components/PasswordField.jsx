@@ -1,10 +1,10 @@
-import React from 'react';
-import { useState } from 'react';
-import Image from 'next/image';
-import PasswordVisible from '@/assets/password-visible.svg';
-import PasswordInvisible from '@/assets/password-invisible.svg';
-import RedCross from '@/assets/redCross.svg';
-import GreenTick from '@/assets/greenTick.svg';
+import React from 'react'
+import { useState } from 'react'
+import Image from 'next/image'
+import PasswordVisible from '@/assets/password-visible.svg'
+import PasswordInvisible from '@/assets/password-invisible.svg'
+import RedCross from '@/assets/redCross.svg'
+import GreenTick from '@/assets/greenTick.svg'
 
 const PasswordField = ({
   label,
@@ -13,31 +13,31 @@ const PasswordField = ({
   PasswordError,
   setPasswordError,
 }) => {
-  const [isFirstTime, setIsFirstTime] = useState(true);
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const [isFirstTime, setIsFirstTime] = useState(true)
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false)
 
-  const [hasUppercase, setHasUppercase] = useState(false);
-  const [hasLowercase, setHasLowercase] = useState(false);
-  const [hasNumber, setHasNumber] = useState(false);
-  const [hasSpecialChar, setHasSpecialChar] = useState(false);
-  const [hasMinLength, setHasMinLength] = useState(false);
+  const [hasUppercase, setHasUppercase] = useState(false)
+  const [hasLowercase, setHasLowercase] = useState(false)
+  const [hasNumber, setHasNumber] = useState(false)
+  const [hasSpecialChar, setHasSpecialChar] = useState(false)
+  const [hasMinLength, setHasMinLength] = useState(false)
 
-  const [showPasswordStrength, setShowPasswordStrength] = useState(false);
+  const [showPasswordStrength, setShowPasswordStrength] = useState(false)
 
   const isValidPassword = (password) => {
-    const hasUppercase = /[A-Z]/.test(password);
-    const hasLowercase = /[a-z]/.test(password);
-    const hasNumber = /[0-9]/.test(password);
+    const hasUppercase = /[A-Z]/.test(password)
+    const hasLowercase = /[a-z]/.test(password)
+    const hasNumber = /[0-9]/.test(password)
     const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(
-      password
-    );
-    const hasMinLength = password.length >= 8;
+      password,
+    )
+    const hasMinLength = password.length >= 8
 
-    setHasUppercase(hasUppercase);
-    setHasLowercase(hasLowercase);
-    setHasNumber(hasNumber);
-    setHasSpecialChar(hasSpecialChar);
-    setHasMinLength(hasMinLength);
+    setHasUppercase(hasUppercase)
+    setHasLowercase(hasLowercase)
+    setHasNumber(hasNumber)
+    setHasSpecialChar(hasSpecialChar)
+    setHasMinLength(hasMinLength)
 
     return (
       hasUppercase &&
@@ -45,31 +45,32 @@ const PasswordField = ({
       hasNumber &&
       hasSpecialChar &&
       hasMinLength
-    );
-  };
+    )
+  }
 
   const handleInput = (e) => {
-    setPassword(e.target.value);
+    setPassword(e.target.value)
     isFirstTime
       ? setIsFirstTime(false)
       : isValidPassword(e.target.value) === false
-      ? [setPasswordError(true), setShowPasswordStrength(true)]
-      : setPasswordError(false);
-  };
+        ? [setPasswordError(true), setShowPasswordStrength(true)]
+        : setPasswordError(false)
+  }
 
   const checkisValid = () => {
     if (isValidPassword(Password) === false) {
-      setIsFirstTime(false);
-      setPasswordError(true);
-      setShowPasswordStrength(true);
+      setIsFirstTime(false)
+      setPasswordError(true)
+      setShowPasswordStrength(true)
     }
-  };
+  }
 
   return (
     <div>
       <label
         htmlFor="email"
-        className="text-primary-text text-[0.875rem] leading-[150%] font-semibold inline-block mb-[0.375rem]">
+        className="text-primary-text text-[0.875rem] leading-[150%] font-semibold inline-block mb-[0.375rem]"
+      >
         {label}
       </label>
       <div className="relative">
@@ -88,7 +89,8 @@ const PasswordField = ({
 
         <div
           onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-          className="absolute right-3 top-3">
+          className="absolute right-3 top-3"
+        >
           {isPasswordVisible ? (
             <Image
               src={PasswordVisible}
@@ -173,7 +175,7 @@ const PasswordField = ({
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PasswordField;
+export default PasswordField

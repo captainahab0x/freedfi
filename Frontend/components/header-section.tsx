@@ -1,15 +1,15 @@
-import { Button } from '@/components/ui/button';
-import { Avatar } from '@/components/ui/avatar';
-import Link from 'next/link';
-import { Poller_One } from 'next/font/google';
-import { Sheet, SheetContent, SheetTrigger } from '../components/ui/sheet';
-import { Menu, Moon, Sun } from 'lucide-react';
-import Connect from './Connect';
+import { Button } from '@/components/ui/button'
+import { Avatar } from '@/components/ui/avatar'
+import Link from 'next/link'
+import { Poller_One } from 'next/font/google'
+import { Sheet, SheetContent, SheetTrigger } from '../components/ui/sheet'
+import { Menu, Moon, Sun } from 'lucide-react'
+import Connect from './Connect'
 
 const poller_one = Poller_One({
   weight: ['400'],
   subsets: ['latin'],
-});
+})
 
 export default function HeaderSection() {
   return (
@@ -38,7 +38,8 @@ export default function HeaderSection() {
           </Sheet>
           <Link href="/" className="ml-4 lg:ml-0">
             <h1
-              className={`text-xl active:scale-75 transition-all duration-200 font-bold ${poller_one.className}`}>
+              className={`text-xl active:scale-75 transition-all duration-200 font-bold ${poller_one.className}`}
+            >
               FreedFi
             </h1>
           </Link>
@@ -47,28 +48,32 @@ export default function HeaderSection() {
           <Button asChild variant="ghost">
             <Link
               href="/"
-              className="text-sm font-medium transition-colors hover:bg-purple-100">
+              className="text-sm font-medium transition-colors hover:bg-purple-100"
+            >
               Home
             </Link>
           </Button>
           <Button asChild variant="ghost">
             <Link
               href="/dashboard"
-              className="text-sm font-medium transition-colors hover:bg-purple-100">
+              className="text-sm font-medium transition-colors hover:bg-purple-100"
+            >
               Dashboard
             </Link>
           </Button>
           <Button asChild variant="ghost">
             <Link
               href="/add-contract"
-              className="text-sm font-medium transition-colors hover:bg-purple-100">
+              className="text-sm font-medium transition-colors hover:bg-purple-100"
+            >
               Request Loan
             </Link>
           </Button>
           <Button asChild variant="ghost">
             <Link
               href="/marketplace"
-              className="text-sm font-medium transition-colors hover:bg-purple-100">
+              className="text-sm font-medium transition-colors hover:bg-purple-100"
+            >
               Market Place
             </Link>
           </Button>
@@ -83,5 +88,5 @@ export default function HeaderSection() {
         </div>
       </div>
     </div>
-  );
+  )
 }

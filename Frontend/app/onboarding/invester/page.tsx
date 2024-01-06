@@ -1,86 +1,110 @@
-'use client';
+'use client'
 
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useRef } from 'react';
-import BackLogo from '@/assets/LeftGrayArrow.svg';
-import Image from 'next/image';
-import RightArrow from '@/assets/RightArrow.svg';
-import { useDispatch, useSelector } from 'react-redux';
-import toast, { Toaster } from 'react-hot-toast';
-import { onboardingActions } from '@/store/onboarding-slice';
-import BlackTick from '@/assets/BlackTick.svg';
-import BlackDownArrow from '@/assets/BlackDownArrow.svg';
-import InvesterProof from '../../../components/InvesterProof';
-import InvesterCommitment from '../../../components/InvesterCommitment';
-import { useRouter } from 'next/navigation';
-import { uiActions } from '@/store/ui-slice';
+import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useRef } from 'react'
+import BackLogo from '@/assets/LeftGrayArrow.svg'
+import Image from 'next/image'
+import RightArrow from '@/assets/RightArrow.svg'
+import { useDispatch, useSelector } from 'react-redux'
+import toast, { Toaster } from 'react-hot-toast'
+import { onboardingActions } from '@/store/onboarding-slice'
+import BlackTick from '@/assets/BlackTick.svg'
+import BlackDownArrow from '@/assets/BlackDownArrow.svg'
+import InvesterProof from '../../../components/InvesterProof'
+import InvestorCommitment from '../../../components/InvestorCommitment'
+import { useRouter } from 'next/navigation'
+import { uiActions } from '@/store/ui-slice'
+import { PCcontractAddress, getContractInstance, getCurrentWalletConnected } from '@/lib/utils'
+import { useContractWrite } from 'wagmi'
+import { parseEther } from 'viem'
+import PoolController from '../../../../contracts/out/PoolController.sol/PoolController.json'
 
 const Onboarding = () => {
-  const dispatch = useDispatch();
-  const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState(1);
-  const router = useRouter();
-  const targetRef = useRef(null);
-  const [isMobile, setIsMobile] = useState(false);
-  const [investerAmount, setInvesterAmount] = useState([20000]); // State as an array
-  const [showModal, setShowModal] = useState(false);
+  const dispatch = useDispatch()
+  const [index, setIndex] = useState(0)
+  const [direction, setDirection] = useState(1)
+  const router = useRouter()
+  const targetRef = useRef(null)
+  const [isMobile, setIsMobile] = useState(false)
+  const [investorAmount, setInvestorAmount] = useState(['0.005']) // State as an array
+  const [showModal, setShowModal] = useState(false)
 
-  const handelSubmit = () => {
-    dispatch(uiActions.toggleConfetti(true));
-    router.push('/dashboard');
-  };
+   const {
+    data: depositData,
+    status: depositStatus,
+    isLoading: depositLoading,
+    isSuccess: depositSuccess,
+    writeAsync: depositWrite,
+  } = useContractWrite({
+    address: PCcontractAddress,
+    abi: PoolController.abi,
+    functionName: 'deposit',
+    value: parseEther(investorAmount[0]),
+  })
+
+  const investHandler = async () => {
+    try {
+      await depositWrite()
+
+      if (!depositLoading) {
+        dispatch(uiActions.toggleConfetti(true))
+        toast('Successfully Deposited!')
+        router.push('/dashboard')
+        console.log(depositData)
+      }
+    } catch (error) {
+      setShowModal(false)
+      console.log('Could not invest: ', error)
+    }
+  }
 
   const handleSliderChange = (value) => {
-    if (value < 20000) {
-      setInvesterAmount([20000]); // Directly use the array value
-    } else {
-      setInvesterAmount(value);
-    }
-  };
+    setInvestorAmount(value)
+  }
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
+      setIsMobile(window.innerWidth <= 768)
+    }
 
-    handleResize();
+    handleResize()
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize)
     return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   const nextPanel = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (index < 1) {
-      setIndex(index + 1);
-      targetRef.current.scrollLeft += 740;
-      setDirection(1);
+      setIndex(index + 1)
+      targetRef.current.scrollLeft += 740
+      setDirection(1)
     }
 
     if (index == 1) {
-      setShowModal(true);
+      setShowModal(true)
     }
-  };
+  }
 
   const prevPanel = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     if (index > 0) {
-      setIndex(index - 1);
-      targetRef.current.scrollLeft -= 740;
-      setDirection(-1);
+      setIndex(index - 1)
+      targetRef.current.scrollLeft -= 740
+      setDirection(-1)
     }
-  };
+  }
 
   const handleScroll = (e) => {
     if (isMobile) {
-      e.preventDefault();
+      e.preventDefault()
     }
-  };
+  }
 
   return (
     <div
@@ -88,7 +112,8 @@ const Onboarding = () => {
         showModal
           ? 'overflow-hidden lg:p-0'
           : 'w-full lg:pt-[2.75rem] lg:pb-[4rem]'
-      }   `}>
+      }   `}
+    >
       {/* Logo */}
 
       {/* Mobile nav bar */}
@@ -107,16 +132,19 @@ const Onboarding = () => {
           <div
             className={`w-4 h-[3px] rounded-full   ${
               index > 0 ? 'bg-black' : 'bg-light-gray'
-            }`}></div>
+            }`}
+          ></div>
           <div
             className={`w-4 h-[3px] rounded-full   ${
               index > 1 ? 'bg-black' : 'bg-light-gray'
-            }`}></div>
+            }`}
+          ></div>
         </div>
         <div className="flex-1  flex justify-end">
           <button
             onClick={nextPanel}
-            className="py-[10px] w-fit  px-8 text-[0.875rem] rounded font-semibold bg-primary-button text-primary-text hover:bg-secondary-button hover:-translate-y-0.5  hover:shadow-button ease-in-out-expo transform transition-transform duration-150 cursor-pointer">
+            className="py-[10px] w-fit  px-8 text-[0.875rem] rounded font-semibold bg-primary-button text-primary-text hover:bg-secondary-button hover:-translate-y-0.5  hover:shadow-button ease-in-out-expo transform transition-transform duration-150 cursor-pointer"
+          >
             Next
           </button>
         </div>
@@ -124,17 +152,20 @@ const Onboarding = () => {
       <Toaster />
       <div
         className="max-w-[62.5rem]  bg-white py-[2.75rem] shadow-onboard overflowx-x-hidden mx-auto relative rounded-[1.5rem]"
-        onScroll={handleScroll}>
+        onScroll={handleScroll}
+      >
         <div
           ref={targetRef}
-          className="max-w-[52.125rem] w-full mx-auto overflow-x-clip scrollbar-hide ">
+          className="max-w-[52.125rem] w-full mx-auto overflow-x-clip scrollbar-hide "
+        >
           {/* Back button */}
           <div className="hidden lg:block">
             <div
               onClick={prevPanel}
               className={`absolute ${
                 index > 0 ? 'block' : 'hidden'
-              } top-[3rem] left-[3rem] cursor-pointer`}>
+              } top-[3rem] left-[3rem] cursor-pointer`}
+            >
               <Image
                 src={BackLogo}
                 alt="back"
@@ -146,13 +177,15 @@ const Onboarding = () => {
               <span
                 className={`text-[0.75rem] text-left leading-[150%] transition-all duration-300  text-primary-text ${
                   index == 0 && 'font-semibold'
-                }`}>
+                }`}
+              >
                 Capital Address
               </span>
               <span
                 className={`text-[0.75rem]  text-center leading-[150%] transition-all duration-300  text-primary-text ${
                   index == 1 && 'font-semibold'
-                }`}>
+                }`}
+              >
                 Funding Limit
               </span>
             </div>
@@ -166,11 +199,12 @@ const Onboarding = () => {
               initial={{ opacity: 0, x: 300 * direction }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}>
+              transition={{ duration: 0.3 }}
+            >
               {index === 0 && <InvesterProof />}
               {index === 1 && (
-                <InvesterCommitment
-                  investerAmount={investerAmount}
+                <InvestorCommitment
+                  investorAmount={investorAmount}
                   handleSliderChange={handleSliderChange}
                 />
               )}
@@ -179,7 +213,8 @@ const Onboarding = () => {
           <div className="hidden w-full mt-[2rem] lg:flex justify-center">
             <button
               onClick={nextPanel}
-              className="max-w-[13.25rem]   mx-auto  bg-primary-button px-4 rounded font-semibold text-[0.875rem] h-[2.5rem] flex items-center gap-2 hover:bg-secondary-button hover:-translate-y-0.5  hover:shadow-button ease-in-out-expo transform transition-transform duration-150 cursor-pointer">
+              className="max-w-[13.25rem]   mx-auto  bg-primary-button px-4 rounded font-semibold text-[0.875rem] h-[2.5rem] flex items-center gap-2 hover:bg-secondary-button hover:-translate-y-0.5  hover:shadow-button ease-in-out-expo transform transition-transform duration-150 cursor-pointer"
+            >
               {index == 1 ? 'Complete Loan' : 'Save and Continue'}
               <Image
                 src={index == 1 ? BlackTick : RightArrow}
@@ -194,23 +229,24 @@ const Onboarding = () => {
         <div className="absolute top-0 left-0 max-w-screen max-h-screen w-full h-full bg-geay-200 backdrop-blur-sm flex items-center justify-center">
           <div className="w-[520px] h-[300px] bg-gray-100 border rounded-lg p-10 border-[#AF6DEA]">
             <h1 className="text-2xl text-center">
-              Would you like to confrim the Funding
+              Would you like to confirm the Funding
             </h1>
             <h1 className="bg-[#af6dea] mt-10 w-fit mx-auto text-white text-5xl font-bold">
-              $ {investerAmount}
+              $ {investorAmount}
             </h1>
             <div className="w-full flex justify-center">
               <button
-                onClick={handelSubmit}
-                className="text-[#0e0e0e] rounded-md mt-10 mx-auto z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  py-2 hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer">
-                Confrim Funding
+                onClick={investHandler}
+                className="text-[#0e0e0e] rounded-md mt-10 mx-auto z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  py-2 hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer"
+              >
+                Confirm Funding
               </button>
             </div>
           </div>
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Onboarding;
+export default Onboarding

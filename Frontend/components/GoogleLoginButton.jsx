@@ -1,6 +1,6 @@
-import React from 'react';
-import Image from 'next/image';
-import GoogleLogo from '@/assets/GoogleSSO.png';
+import React from 'react'
+import Image from 'next/image'
+import GoogleLogo from '@/assets/GoogleSSO.png'
 
 const GoogleLoginButton = () => {
   return (
@@ -18,7 +18,7 @@ const GoogleLoginButton = () => {
         </span>
       </div>
     </button>
-  );
-};
+  )
+}
 
-export default GoogleLoginButton;
+export default GoogleLoginButton

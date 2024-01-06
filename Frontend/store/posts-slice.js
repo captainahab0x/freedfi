@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialPostsState = {
   posts: [
@@ -141,46 +141,46 @@ const initialPostsState = {
   ],
 
   selectedCard: null,
-};
+}
 
 const postsSlice = createSlice({
   name: 'posts',
   initialState: initialPostsState,
   reducers: {
     addPost(state, action) {
-      state.posts.unshift(action.payload);
+      state.posts.unshift(action.payload)
     },
     getPostById(state, action) {
       state.selectedPost = state.posts.find(
-        (post) => post.id === action.payload
-      );
+        (post) => post.id === action.payload,
+      )
     },
 
     setSelectedCard(state, action) {
-      state.selectedCard = action.payload;
+      state.selectedCard = action.payload
     },
 
     toggleLike(state, action) {
       const post =
         state.TrendingPostData.find((post) => post.id === action.payload) ||
-        state.posts.find((post) => post.id === action.payload);
-      post.isLiked = !post.isLiked;
+        state.posts.find((post) => post.id === action.payload)
+      post.isLiked = !post.isLiked
       if (post.isLiked) {
-        post.no_likes++;
+        post.no_likes++
       } else {
-        post.no_likes--;
+        post.no_likes--
       }
     },
 
     toggleFollow(state, action) {
       const post =
         state.TrendingPostData.find((post) => post.id === action.payload) ||
-        state.posts.find((post) => post.id === action.payload);
-      post.hasFollowed = !post.hasFollowed;
+        state.posts.find((post) => post.id === action.payload)
+      post.hasFollowed = !post.hasFollowed
     },
   },
-});
+})
 
-export const postsActions = postsSlice.actions;
+export const postsActions = postsSlice.actions
 
-export default postsSlice;
+export default postsSlice

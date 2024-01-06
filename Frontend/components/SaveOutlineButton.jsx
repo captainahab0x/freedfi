@@ -1,7 +1,7 @@
-import React from 'react';
-import BookmarkLogo from '@/assets/BookmarkLogo.svg';
-import ShareLogo from '@/assets/shareLogo.svg';
-import Image from 'next/image';
+import React from 'react'
+import BookmarkLogo from '@/assets/BookmarkLogo.svg'
+import ShareLogo from '@/assets/shareLogo.svg'
+import Image from 'next/image'
 
 const SaveOutlineButton = ({ isShare }) => {
   return (
@@ -17,7 +17,7 @@ const SaveOutlineButton = ({ isShare }) => {
         {isShare ? 'Share' : 'Save'}
       </p>
     </div>
-  );
-};
+  )
+}
 
-export default SaveOutlineButton;
+export default SaveOutlineButton

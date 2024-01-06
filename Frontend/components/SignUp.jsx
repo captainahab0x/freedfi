@@ -1,50 +1,50 @@
-'use client';
+'use client'
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+import React, { useState, useEffect } from 'react'
+import Link from 'next/link'
 
-import GoogleLoginButton from '@/components/GoogleLoginButton';
-import InputField from '@/components/InputField';
-import EmailField from '@/components/EmailField';
-import PasswordField from '@/components/PasswordField';
-import SignUpButton from '@/components/SignUpButton';
-import { useRouter } from 'next/navigation';
+import GoogleLoginButton from '@/components/GoogleLoginButton'
+import InputField from '@/components/InputField'
+import EmailField from '@/components/EmailField'
+import PasswordField from '@/components/PasswordField'
+import SignUpButton from '@/components/SignUpButton'
+import { useRouter } from 'next/navigation'
 
 const SignUp = ({ setIsSignUp }) => {
-  const [FirstName, setFirstName] = useState('');
-  const [FirstNameError, setFirstNameError] = useState(false);
-  const [LastName, setLastName] = useState('');
-  const [LastNameError, setLastNameError] = useState(false);
-  const [Email, setEmail] = useState('');
-  const [EmailError, setEmailError] = useState(false);
-  const [Password, setPassword] = useState('');
-  const [PasswordError, setPasswordError] = useState(false);
+  const [FirstName, setFirstName] = useState('')
+  const [FirstNameError, setFirstNameError] = useState(false)
+  const [LastName, setLastName] = useState('')
+  const [LastNameError, setLastNameError] = useState(false)
+  const [Email, setEmail] = useState('')
+  const [EmailError, setEmailError] = useState(false)
+  const [Password, setPassword] = useState('')
+  const [PasswordError, setPasswordError] = useState(false)
 
-  const [isAllValid, setIsAllValid] = useState(false);
-  const [isFirstload, setIsFirstLoad] = useState(true);
+  const [isAllValid, setIsAllValid] = useState(false)
+  const [isFirstload, setIsFirstLoad] = useState(true)
 
-  const router = useRouter();
+  const router = useRouter()
 
   const checkAllValid = () => {
     setIsAllValid(
-      !FirstNameError && !LastNameError && !EmailError && !PasswordError
-    );
-  };
+      !FirstNameError && !LastNameError && !EmailError && !PasswordError,
+    )
+  }
 
   const handelSubmit = () => {
     if (isAllValid) {
-      console.log('signup');
-      router.push('/onboarding');
+      console.log('signup')
+      router.push('/onboarding')
     }
-  };
+  }
 
   useEffect(() => {
     if (isFirstload) {
-      setIsFirstLoad(false);
-      return;
+      setIsFirstLoad(false)
+      return
     }
-    checkAllValid();
-  }, [FirstNameError, LastNameError, EmailError, PasswordError]);
+    checkAllValid()
+  }, [FirstNameError, LastNameError, EmailError, PasswordError])
 
   return (
     <div className="flex min-h-screen w-full h-full">
@@ -126,14 +126,15 @@ const SignUp = ({ setIsSignUp }) => {
 
             <span
               onClick={() => setIsSignUp(false)}
-              className="text-link inline-block ml-[2px] font-semibold leading-[130%] cursor-pointer underline">
+              className="text-link inline-block ml-[2px] font-semibold leading-[130%] cursor-pointer underline"
+            >
               Log in
             </span>
           </p>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SignUp;
+export default SignUp
