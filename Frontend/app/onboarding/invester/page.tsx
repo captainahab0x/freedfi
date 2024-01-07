@@ -32,9 +32,7 @@ const Onboarding = () => {
 
    const {
     data: depositData,
-    status: depositStatus,
     isLoading: depositLoading,
-    isSuccess: depositSuccess,
     writeAsync: depositWrite,
   } = useContractWrite({
     address: PCcontractAddress,
@@ -49,7 +47,7 @@ const Onboarding = () => {
 
       if (!depositLoading) {
         dispatch(uiActions.toggleConfetti(true))
-        toast('Successfully Deposited!')
+        toast.success('Successfully Deposited!')
         router.push('/dashboard')
         console.log(depositData)
       }
@@ -239,7 +237,7 @@ const Onboarding = () => {
                 onClick={investHandler}
                 className="text-[#0e0e0e] rounded-md mt-10 mx-auto z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  py-2 hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer"
               >
-                Confirm Funding
+                {depositLoading ? 'Confirming ... ' : 'Confirm Funding'}
               </button>
             </div>
           </div>

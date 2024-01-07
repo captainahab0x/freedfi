@@ -9,16 +9,12 @@ import UpcomingSlide from './UpcomingSlide'
 import { useDispatch, useSelector } from 'react-redux'
 import { postsActions } from '@/store/posts-slice'
 import { useEffect } from 'react'
-import {
-  LPcontractAddress,
-  convertToWei,
-  getContractInstance,
-  getCurrentWalletConnected,
-} from '@/lib/utils'
+import { LPcontractAddress } from '@/lib/utils'
 import LendingPlatform from '../../contracts/out/GetALoan.sol/LendingPlatform.json'
 import { useContractWrite, useAccount } from 'wagmi'
-import { parseEther, parseGwei } from 'viem'
+import { parseEther } from 'viem'
 import { uiActions } from '@/store/ui-slice'
+import toast, { Toaster } from 'react-hot-toast'
 
 const datadummy = {
   id: 1,
@@ -96,6 +92,7 @@ const JobsAndCompaniesModal = ({ isModalOpen, setIsModalOpen }) => {
     await approveWrite()
 
     if (!approveLoading) {
+      toast.success('Successfuly funded')
       setIsModalOpen(false)
       dispatch(uiActions.toggleConfetti(true))
       console.log(approveData)
@@ -174,7 +171,7 @@ const JobsAndCompaniesModal = ({ isModalOpen, setIsModalOpen }) => {
                   onClick={() => approveHandler()}
                   className="max-w-[13.25rem]   mx-auto  bg-primary-button px-4 rounded font-semibold text-[0.875rem] h-[2.5rem] flex items-center gap-2 hover:bg-secondary-button hover:-translate-y-0.5  hover:shadow-button ease-in-out-expo transform transition-transform duration-150 cursor-pointer "
                 >
-                  <span>Fund</span>
+                  <span>{approveLoading ? 'Loading ... ' : 'Fund'}</span>
                   <Image
                     src={RightArrow}
                     alt="back"
@@ -294,6 +291,7 @@ const JobsAndCompaniesModal = ({ isModalOpen, setIsModalOpen }) => {
                   cardList={upcomingWebinars}
                 />
               </div>
+              <Toaster />
             </div>
           </div>
         </div>

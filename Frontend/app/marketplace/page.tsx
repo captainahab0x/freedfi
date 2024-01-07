@@ -1,16 +1,15 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import CanalLogo from '@/assets/CanalLogo.png'
 import DegreedLogo from '@/assets/degreedLogo.png'
 import DiscordLogo from '@/assets/DiscordLogo.jpeg'
-import ListLogo from '@/assets/ListLogo.svg'
-import ClockLogo from '@/assets/ClockLogo.svg'
-import BookmarkLogo from '@/assets/BookmarkLogo.svg'
-import BlackTick from '@/assets/BlackTick.svg'
 import JobsCard from '@/components/JobsCard'
 import JobsPage from '@/components/JobsPage'
 import FooterSection from '@/components/footer-section'
+import Confetti from 'react-confetti'
+import useWindowSize from 'react-use/lib/useWindowSize'
+import { useSelector } from 'react-redux'
 
 const JobsFilter = [
   {
@@ -142,6 +141,21 @@ const JobsList = [
 ]
 
 const Jobs = () => {
+
+  const { isConfetti } = useSelector((state) => state.ui)
+  const { width, height } = useWindowSize()
+
+  const [showConfetti, setShowConfetti] = useState(false)
+
+  useEffect(() => {
+    if (isConfetti) {
+      setShowConfetti(true)
+
+      const timer = setTimeout(() => setShowConfetti(false), 5000)
+      return () => clearTimeout(timer)
+    }
+  }, [isConfetti])
+
   return (
     <div>
       <JobsPage
@@ -151,6 +165,7 @@ const Jobs = () => {
         Heading="YOUR TOP JOB MATCHES ON UNTAPPED"
         isDropDown={true}
       />
+      {showConfetti && <Confetti width={width - 50} height={height} />}
       <FooterSection />
     </div>
   )

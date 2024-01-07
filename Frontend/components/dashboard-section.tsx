@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import {
   LPcontractAddress,
   PCcontractAddress,
+  INVESTOR
 } from '@/lib/utils'
 import { parseEther } from 'viem'
 import PoolController from '../../contracts/out/PoolController.sol/PoolController.json'
@@ -30,9 +31,7 @@ export default function DashboardSection() {
 
   const {
     data: depositData,
-    status: depositStatus,
     isLoading: depositLoading,
-    isSuccess: depositSuccess,
     writeAsync: depositWrite,
   } = useContractWrite({
     address: PCcontractAddress,
@@ -47,7 +46,7 @@ export default function DashboardSection() {
 
       if (!depositLoading) {
         setInvestShowModal(false)
-        toast('Successfully Deposited!')
+        toast.success('Successfully Deposited!')
         console.log(depositData)
       }
     } catch (error) {
@@ -60,54 +59,47 @@ export default function DashboardSection() {
     try {
       await repayWrite()
 
-      if (repaySuccess) {
+      if (!repayLoading) {
         setShowModal(false)
         console.log(repayData)
-      } else {
-        setShowModal(false)
-        toast('Could not repay')
+        toast.success('Repayed successfully')
       }
     } catch (error) {
       setShowModal(false)
+      toast.error('Could not repay')
       console.log('Could not repay: ', error)
     }
   }
 
   const requestLoan = async () => {
-    router.push('/add-contract')
+    router.push('/request-loan')
   }
 
   const {
     data: repayData,
     isLoading: repayLoading,
-    isSuccess: repaySuccess,
     write: repayWrite,
   } = useContractWrite({
     address: LPcontractAddress,
     abi: LendingPlatform.abi,
     functionName: 'repay',
-    args: [
-      '0x6ad513fDA973Bf1FC24c04256D686CbE05d714c7',
-      '0xC57C81f0dE6164b6FC843A9171A220D2ECA4bE34',
-    ],
+    args: [INVESTOR, address],
     value: parseEther(amount),
   })
 
   const {
     data: borrowedAmountData,
-    isLoading: borrowedAmountLoading,
-    isSuccess: borrowedAmountSuccess,
+    isLoading: borrowedAmountLoading
   } = useContractRead({
     address: LPcontractAddress,
     abi: LendingPlatform.abi,
     functionName: 'getBorrowedAmount',
-    args: ['0x6ad513fDA973Bf1FC24c04256D686CbE05d714c7'],
+    args: [INVESTOR],
   })
 
   const {
     data: investedAmountData,
-    isLoading: investedAmountLoading,
-    isSuccess: investedAmountSuccess,
+    isLoading: investedAmountLoading
   } = useContractRead({
     address: PCcontractAddress,
     abi: PoolController.abi,
@@ -116,16 +108,27 @@ export default function DashboardSection() {
   })
 
   useEffect(() => {
-    if (borrowedAmountSuccess) {
+    if (borrowedAmountLoading) {
       setFundedAmount(Number(borrowedAmountData))
     }
-  }, [borrowedAmountSuccess, borrowedAmountData])
+  }, [!borrowedAmountLoading, borrowedAmountData])
 
   useEffect(() => {
     if (investedAmountData) {
       setInvestedAmount(Number(investedAmountData))
     }
-  }, [investedAmountSuccess, investedAmountData, depositSuccess, depositData])
+  }, [investedAmountData])
+
+  useEffect(() => {
+  if (depositData && investedAmountData) {
+
+    const currentInvestedAmount = Number(investedAmountData);
+    
+    // Update investedAmount with the new data
+    setInvestedAmount(currentInvestedAmount + Number(parseEther(investAmount)));
+  }
+}, [depositData, investedAmountData, investAmount]);
+
 
   return (
     <div className="text-black bg-white pt-40 pb-16 px-8">
