@@ -5,6 +5,7 @@ import { Poppins } from 'next/font/google'
 import { uiActions } from '@/store/ui-slice'
 import { useDispatch } from 'react-redux'
 import { useRouter } from 'next/navigation'
+import toast, { Toaster } from 'react-hot-toast'
 import {
   LPcontractAddress,
   convertToWei
@@ -31,7 +32,7 @@ const SeekersProgress = () => {
 
   const {
     data: borrowData,
-    isSuccess: borrowSuccess,
+    isLoading: borrowLoading,
     writeAsync: borrowWrite,
   } = useContractWrite({
     address: LPcontractAddress,
@@ -43,10 +44,11 @@ const SeekersProgress = () => {
   const borrowRequestHandler = async () => {
     try {
       await borrowWrite()
-      if (borrowSuccess) {
-        console.log(borrowData)
+      if (!borrowLoading) {
         router.push('/dashboard')
         dispatch(uiActions.toggleConfetti(true))
+        toast.success('Fund successfully requested!')
+        console.log(borrowData)
       }
     } catch (error) {
       console.log('Encountered error: ', error)
@@ -55,6 +57,7 @@ const SeekersProgress = () => {
 
   return (
     <div>
+      <Toaster />
       <h1 className="text-3xl font-bold text-center mb-2">
         Congratulations!🎉
       </h1>
@@ -104,7 +107,7 @@ const SeekersProgress = () => {
                 onClick={() => borrowRequestHandler()}
                 className="text-[#0e0e0e] rounded-md mt-10 mx-auto z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  py-2 hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer"
               >
-                confirm
+                {borrowLoading ? 'Confirming ...' : 'Confirm'}
               </button>
             </div>
           </div>

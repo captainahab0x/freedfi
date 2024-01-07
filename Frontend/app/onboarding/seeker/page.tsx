@@ -37,7 +37,7 @@ const Onboarding: React.FC = () => {
 
     const {
     data: borrowData,
-    isSuccess: borrowSuccess,
+    isLoading: borrowLoading,
     writeAsync: borrowWrite,
   } = useContractWrite({
     address: LPcontractAddress,
@@ -47,12 +47,13 @@ const Onboarding: React.FC = () => {
   })
 
   const handleSubmit = async () => {
+
     try {
       await borrowWrite()
-      if (borrowSuccess) {
-        toast('Successfully requested for loan!')
+      if (!borrowLoading) {
         router.push('/dashboard')
         dispatch(uiActions.toggleConfetti(true))
+        toast.success('Fund successfully requested!')
         console.log(borrowData)
       }
     } catch (error) {
@@ -247,7 +248,7 @@ const Onboarding: React.FC = () => {
         <div className="absolute top-0 left-0 max-w-screen max-h-screen w-full h-full bg-geay-200 backdrop-blur-sm flex items-center justify-center">
           <div className="w-[520px] h-[300px] bg-gray-100 border rounded-lg p-10 border-[#AF6DEA]">
             <h1 className="text-2xl text-center">
-              Would you like the confrim the Loan for
+              Would you like the confirm the Loan for
             </h1>
             <h1 className="bg-[#af6dea] mt-10 w-fit mx-auto text-white text-5xl font-bold">
               {loanAmount} ETH
@@ -257,7 +258,7 @@ const Onboarding: React.FC = () => {
                 onClick={handleSubmit}
                 className="text-[#0e0e0e] rounded-md mt-10 mx-auto z-10 bg-[#C9F270]  hover:bg-[#DAF996] hover:scale-[103%]  py-2 hover:-translate-y-0.5  hover:shadow-button px-10 ease-in-out-expo transform transition-transform duration-150 cursor-pointer"
               >
-                confrim
+                {borrowLoading ? 'Confirming ...' : 'Confirm'}
               </button>
             </div>
           </div>

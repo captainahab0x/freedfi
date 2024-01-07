@@ -1,10 +1,9 @@
 import { Button } from '@/components/ui/button'
-import { Avatar } from '@/components/ui/avatar'
 import Link from 'next/link'
 import { Poller_One } from 'next/font/google'
 import { Sheet, SheetContent, SheetTrigger } from '../components/ui/sheet'
-import { Menu, Moon, Sun } from 'lucide-react'
-import Connect from './Connect'
+import { Menu } from 'lucide-react'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
 
 const poller_one = Poller_One({
   weight: ['400'],
@@ -30,7 +29,7 @@ export default function HeaderSection() {
                 <Link href="/dashboard" className="block px-2 py-1 text-lg">
                   Dashboard
                 </Link>
-                <Link href="/add-contract" className="block px-2 py-1 text-lg">
+                <Link href="/request-loan" className="block px-2 py-1 text-lg">
                   Request Loan
                 </Link>
               </nav>
@@ -63,7 +62,7 @@ export default function HeaderSection() {
           </Button>
           <Button asChild variant="ghost">
             <Link
-              href="/add-contract"
+              href="/request-loan"
               className="text-sm font-medium transition-colors hover:bg-purple-100"
             >
               Request Loan
@@ -80,10 +79,10 @@ export default function HeaderSection() {
         </nav>
         <div className="flex items-center">
           <div className="hidden lg:block">
-            <Connect />
+            <ConnectButton accountStatus={'avatar'} />
           </div>
           <div className="lg:hidden">
-            <Connect />
+            <ConnectButton accountStatus={'avatar'} />
           </div>
         </div>
       </div>
