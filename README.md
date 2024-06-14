@@ -1,8 +1,8 @@
 # FreedFi
-"Empowering freelancers through talent-backed loans with FreedFi."
+Empowering communities through smart credential-backed loans and grants with FreedFi.
 
 ## Project Description
-FreedFi is pioneering Freedom for Freelancers by revolutionizing the lending landscape. Our community lending infrastructure offers Talent-backed loans to skilled contractors. Leveraging decentralized finance strategies and Trust Credentials, we bring transparency, accountability, and real-time credit scoring to the lending cycle. 
+FreedFi is pioneering Freedom for Freelancers by revolutionizing the lending landscape. Our community lending infrastructure offers Talent & Trust-backed loans to skilled contributors. Leveraging decentralized finance strategies, Trust and Value Credentials, we bring transparency, accountability, and real-time credit scoring to the lending cycle. 
 
 Join us as we shape the future of lending with a trustless, on-chain solution for DAOs, communities, member organizations and more. 
 
@@ -14,6 +14,8 @@ Advantages:
 Enhanced Privacy and Security: By utilizing anon aadhar for secure private identity verification, FreedFi ensures the confidentiality and protection of user information, providing freelancers and investors with peace of mind.
 
 Trust Credentials and Skill Verification: The implementation of soul bound credentials ERC1155 (Skill & Trust) and ZK proofs for attesting to work history and training completion, FreedFi enables a robust vetting process that verifies freelancers' skills, enhancing trust and credibility within the platform.
+
+Value Credentials and Proof of Impact: The implementation of soul bound credentials ERC1155 (Value) and ZK proofs for attesting to Proof of Impact grant completion verification, FreedFi enables a robust vetting process that verifies grantees reliability to receive grants, enhancing trust and credibility within the platform.
 
 Seamless DeFi Integration: FreedFi offers zero interest and no collateral loans by leveraging various DeFi solutions. The Defi Investmentment pool uses gains to reward investors for funding the future. We use 1inch API for DeFi swaps and have the infrastructure to enable mutliple stratedies like compound lending and more. This integration allows for secure and transparent fund management.
 
@@ -52,12 +54,18 @@ Scroll - GetALoan.sol - 0x1E758656f3Ba1aC562b6D93D08E2ffE0DbE347B0 PoolControlle
 
 Mantle - GetALoan.sol - 0x1E758656f3Ba1aC562b6D93D08E2ffE0DbE347B0 PoolController - 0x8F78e0fa1a25eb313408C4C70EFa5C8AAB04556E
 
+On Allo Protocol for Grants:
+
+
+
 ## Project structure
   - Anoon Aadhar for Identitfy Verification and Maliciious Actor Blacklist Security
   - Zero Knowledge Proofs for additional skill attestation (Reclaim Protocol)
-  - Smart Contracts for trustless loan distribution and tracking. 
+  - Allo Protocol, Allo.sol & Registry.sol for Grant Pool, grantee & investor registration.
+  - Smart Credentials, simplecredential.sol, valuecredential.sol, grantee & investor proof of impact soulbound token (erc1155)
+  - Smart Contracts for trustless loan and grant distribution and tracking. 
   - Erc1155 and Python Script for Trust Credentials
-  - 1inch API for Defi Pool Strategies
+  - API for Defi Pool Strategies
 
 
 ## Public and Private payment methods
