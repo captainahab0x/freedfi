@@ -31,11 +31,11 @@ export default function Page() {
     }
   }, [isConfetti])
 
-  useEffect(() => {
-    if (!isConnected) {
-      router.push('/auth')
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (!isConnected) {
+  //     router.push('/auth')
+  //   }
+  // }, [])
 
   return (
     <div className="">
